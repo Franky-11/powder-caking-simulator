@@ -22,6 +22,7 @@ notebooks/
 reports/
 
 # Local/non-public processed measurement datasets
+data/private_processed/
 data/processed/aw_tg_data.csv
 data/processed/critical_cake_strength.csv
 data/processed/mmp1_kinetics_summary.csv
