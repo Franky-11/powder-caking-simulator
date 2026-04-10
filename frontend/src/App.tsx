@@ -254,7 +254,7 @@ function App() {
       },
       series: [
         {
-          name: 'Cake strength',
+          name: 'Unconfined yield strength',
           type: 'line',
           showSymbol: false,
           lineStyle: { width: 2 },
@@ -262,7 +262,7 @@ function App() {
           markLine: {
             symbol: 'none',
             label: {
-              formatter: 'critical strength 20 kPa',
+              formatter: 'critical UYS 20 kPa',
               color: '#da1e28',
             },
             lineStyle: { color: '#da1e28', width: 2, type: 'dashed' },
@@ -871,14 +871,14 @@ function App() {
                       <div className="field-row">
                         <ExpertNumberField
                           id="expert-initial-sigma"
-                          label="Initial sigma_c"
+                          label="Initial sigma_c (UYS)"
                           value={expertParameters.initialSigmaCKpa}
                           unit="kPa"
                           onChange={(value) => handleExpertFieldChange('initialSigmaCKpa', value)}
                         />
                         <ExpertNumberField
                           id="expert-critical-sigma"
-                          label="Critical sigma_c"
+                          label="Critical sigma_c (UYS)"
                           value={expertParameters.criticalSigmaCKpa}
                           unit="kPa"
                           onChange={(value) => handleExpertFieldChange('criticalSigmaCKpa', value)}
@@ -1034,7 +1034,7 @@ function App() {
           <section className="result-band" aria-label="Simulation result">
             <div className="kpi-grid">
               <Kpi
-                label="End-sigma_c"
+                label="Final sigma_c (UYS)"
                 value={result ? formatNumber(result.summary.final_sigma_c_kpa, 2) : '-'}
                 unit="kPa"
                 status={statusClass}
@@ -1046,7 +1046,7 @@ function App() {
                 status={statusClass}
               />
               <Kpi
-                label="Time to critical"
+                label="Time to critical UYS"
                 value={
                   result?.summary.time_to_critical_d == null
                     ? '-'
@@ -1122,7 +1122,7 @@ function App() {
               </div>
               <div className="preview-grid secondary-preview-grid">
                 <Metric
-                  label="sigma_c am Limit"
+                  label="sigma_c at limit (UYS)"
                   value={
                     moistureLimit?.final_sigma_c_kpa_at_limit == null
                       ? '-'
@@ -1131,7 +1131,7 @@ function App() {
                   status={getSigmaLimitStatus(moistureLimit)}
                 />
                 <Metric
-                  label="Critical sigma_c"
+                  label="Critical sigma_c (UYS)"
                   value={
                     moistureLimit ? `${formatNumber(moistureLimit.critical_sigma_c_kpa, 2)} kPa` : '-'
                   }
@@ -1251,8 +1251,8 @@ function App() {
           {activeChartTab === 'caking' && (
             <div className="chart-stack">
               <ChartBlock
-                description="Cake strength sigma_c with a red 20 kPa reference line"
-                emptyText="Run the simulation to calculate strength."
+                description="Unconfined yield strength sigma_c with a red 20 kPa reference line"
+                emptyText="Run the simulation to calculate unconfined yield strength."
                 option={strengthChartOption}
               />
               <ChartBlock
@@ -1286,7 +1286,7 @@ function StartView({ onNavigate }: { onNavigate: (view: AppView) => void }) {
         <div className="start-hero-copy">
           <p className="eyebrow">Transport and storage assessment</p>
           <h1 id="start-title">Assess the caking risk of skim milk powder</h1>
-          <p>Calculate moisture uptake, glass transition, and strength build-up from climate profiles.</p>
+          <p>Calculate moisture uptake, glass transition, and unconfined yield strength build-up from climate profiles.</p>
           <div className="start-hero-actions">
             <button type="button" className="button-primary start-cta" onClick={() => onNavigate('simulator')}>
               Open simulator
@@ -1426,7 +1426,7 @@ function ModelFoundationView() {
         </div>
         <p className="process-summary">
           Initial moisture, transport climate, water vapor transport, water activity, glass transition, and
-          caking kinetics are coupled into a strength time series. The decision threshold is{' '}
+          caking kinetics are coupled into an unconfined yield strength time series. The decision threshold is{' '}
           <span className="inline-equation">
             &sigma;<sub>c</sub> &gt;= 20 kPa
           </span>
@@ -1492,7 +1492,7 @@ const startOrientationPoints = [
     title: 'Calculate caking risk',
     description: (
       <>
-        Determine the evolution of powder strength (
+        Determine the evolution of unconfined yield strength (
         <span className="inline-equation">
           σ<sub>c</sub>
         </span>
@@ -1648,8 +1648,8 @@ function buildParameterOverrides(
     overrides.sack = { ...overrides.sack, sack_area_m2: sackAreaM2 }
   }
 
-  const initialSigmaCKpa = parseOptionalExpertNumber(expertParameters.initialSigmaCKpa, 'Initial sigma_c')
-  const criticalSigmaCKpa = parseOptionalExpertNumber(expertParameters.criticalSigmaCKpa, 'Critical sigma_c')
+  const initialSigmaCKpa = parseOptionalExpertNumber(expertParameters.initialSigmaCKpa, 'Initial sigma_c (UYS)')
+  const criticalSigmaCKpa = parseOptionalExpertNumber(expertParameters.criticalSigmaCKpa, 'Critical sigma_c (UYS)')
   if (initialSigmaCKpa !== undefined && valueDiffers(initialSigmaCKpa, defaultParameters.initial_sigma_c_kpa)) {
     overrides.caking_threshold = { ...overrides.caking_threshold, initial_sigma_c_kpa: initialSigmaCKpa }
   }
@@ -1968,14 +1968,14 @@ function buildParameterSections(simulationResult: SimulationResponse | null): Pa
         { label: 'Consolidation stress', value: formatParameterNumber(summary.consolidation_stress_kpa, 2), unit: 'kPa' },
         { label: 'Bag mass', value: formatParameterNumber(parameters.sack_mass_kg, 2), unit: 'kg' },
         { label: 'Bag area', value: formatParameterNumber(parameters.sack_area_m2, 3), unit: 'm2' },
-        { label: 'Initial sigma_c', value: formatParameterNumber(parameters.initial_sigma_c_kpa, 3), unit: 'kPa' },
+        { label: 'Initial sigma_c (UYS)', value: formatParameterNumber(parameters.initial_sigma_c_kpa, 3), unit: 'kPa' },
         { label: 'Simulation duration', value: formatParameterNumber(summary.final_time_d, 3), unit: 'd' },
       ],
     },
     {
       title: 'Caking-Fit',
       rows: [
-        { label: 'sigma1_kpa', value: formatParameterNumber(parameters.caking_rate.sigma1_kpa, 2), unit: 'kPa' },
+        { label: 'sigma1_kpa (consolidation stress)', value: formatParameterNumber(parameters.caking_rate.sigma1_kpa, 2), unit: 'kPa' },
         {
           label: 'a_param_pa_per_h',
           value: formatParameterNumber(parameters.caking_rate.a_param_pa_per_h, 6),
@@ -2021,12 +2021,12 @@ function buildParameterSections(simulationResult: SimulationResponse | null): Pa
     {
       title: 'Threshold and integration',
       rows: [
-        { label: 'Critical sigma_c', value: formatParameterNumber(parameters.critical_sigma_c_kpa, 2), unit: 'kPa' },
-        { label: 'Summary threshold', value: formatParameterNumber(summary.critical_sigma_c_kpa, 2), unit: 'kPa' },
+        { label: 'Critical sigma_c (UYS)', value: formatParameterNumber(parameters.critical_sigma_c_kpa, 2), unit: 'kPa' },
+        { label: 'Critical UYS threshold', value: formatParameterNumber(summary.critical_sigma_c_kpa, 2), unit: 'kPa' },
         { label: 'Integration method', value: summary.integration_method },
         { label: 'Caking status', value: summary.is_caked ? 'Caked' : 'Not caked' },
         {
-          label: 'Time to critical',
+          label: 'Time to critical UYS',
           value:
             summary.time_to_critical_d == null
               ? 'not reached'
@@ -2067,7 +2067,7 @@ const processSteps: ProcessStep[] = [
   {
     index: '6',
     title: 'Caking kinetics',
-    description: 'T - Tg drives dfc/dt; the fit parameters depend on consolidation stress.',
+    description: 'T - Tg drives dfc/dt; the fit parameters depend on the consolidation stress sigma1.',
   },
   {
     index: '7',
@@ -2254,7 +2254,7 @@ const formulaBlocks: FormulaBlock[] = [
 
 const modelAssumptions = [
   {
-    title: 'Cumulative strength build-up',
+    title: 'Cumulative UYS build-up',
     description:
       'Strength that has already built up is retained. When T - Tg <= 0, no additional caking rate is applied; if T - Tg rises above 0 again later, consolidation continues from the level already reached.',
   },

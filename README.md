@@ -1,14 +1,14 @@
 # Powder Caking Simulator
 
-Web app for assessing the caking risk of skim milk powder in a 25 kg bag during transport and storage. The app derives moisture uptake, water activity, glass transition temperature, powder strength, and the resulting caking risk from climate profiles.
+Web app for assessing the caking risk of skim milk powder in a 25 kg bag during transport and storage. The app derives moisture uptake, water activity, glass transition temperature, unconfined yield strength, and the resulting caking risk from climate profiles.
 
 ## Features
 
 - Landing page with technical context and direct navigation to the simulator.
 - Climate profiles as presets, a measured logger profile, or custom CSV input.
 - Profile preview with duration, number of points, temperature range, and relative humidity range.
-- Simulation of powder moisture, `aw`, `Tg`, `T - Tg`, caking rate, and consolidation strength `σ_c`.
-- Result KPIs for final strength, caking status, time to the critical threshold, final moisture, final `aw`, and maximum `T - Tg`.
+- Simulation of powder moisture, `aw`, `Tg`, `T - Tg`, caking rate, and unconfined yield strength `σ_c`.
+- Result KPIs for final unconfined yield strength, caking status, time to the critical UYS threshold, final moisture, final `aw`, and maximum `T - Tg`.
 - Charts for climate, moisture, glass transition, and caking kinetics.
 - Back-calculation of the maximum safe initial moisture for a given climate profile.
 - Expert mode for model parameters such as GAB, bag data, thresholds, and permeability.
@@ -185,9 +185,10 @@ time_d,temperature_c,relative_humidity_pct
 
 ## Interpreting Results
 
-- `σ_c` describes the calculated powder strength.
+- `σ_c` describes the calculated unconfined yield strength.
+- `σ1` is the consolidation stress used to select the caking fit.
 - The critical threshold defaults to `20 kPa`.
-- `Not caked` means the calculated strength remains below the critical threshold.
+- `Not caked` means the calculated unconfined yield strength remains below the critical threshold.
 - `Caked` means the critical threshold has been reached or exceeded.
 - The initial moisture back-calculation searches for the highest initial moisture that keeps the profile below the critical threshold.
 
