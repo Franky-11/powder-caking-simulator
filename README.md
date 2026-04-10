@@ -45,7 +45,7 @@ Forschungsvorhabens AiF 18643 BR erhoben bzw. aufbereitet.
 Repository klonen und in den Projektordner wechseln:
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/Franky-11/powder-caking-simulator.git
 cd powder-caking
 ```
 
@@ -78,7 +78,7 @@ docker compose down
 Repository klonen und in den Projektordner wechseln:
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/Franky-11/powder-caking-simulator.git
 cd powder-caking
 ```
 
