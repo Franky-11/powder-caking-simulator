@@ -1,0 +1,6 @@
+parameter,symbol,value,unit,source_cell,source_workbook,source_sheet
+gas_constant,R,8314.0,J/(kmol*K),BG7,Wasseraufnahme 25 Sack Milchpulver.xlsx,Messung WDD Sackmaterial
+negative_ea_over_r,-Ea/R,-3315.7,K,BG8,Wasseraufnahme 25 Sack Milchpulver.xlsx,Messung WDD Sackmaterial
+ln_k0,ln(k0),-3.3843,-,BG9,Wasseraufnahme 25 Sack Milchpulver.xlsx,Messung WDD Sackmaterial
+activation_energy,Ea,27566729.799999997,J/kmol,BG11,Wasseraufnahme 25 Sack Milchpulver.xlsx,Messung WDD Sackmaterial
+pre_exponential_factor,k0,0.033901364997275675,kg/(m2*d*Pa),BG12,Wasseraufnahme 25 Sack Milchpulver.xlsx,Messung WDD Sackmaterial

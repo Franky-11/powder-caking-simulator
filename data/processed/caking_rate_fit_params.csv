@@ -1,0 +1,3 @@
+sigma1_kpa,n_points,rate_column,a_param_pa_per_h,k_param_per_c,r_squared,fit_equation
+11.0,3,dfc_dt_pa_per_h,21.951828464474367,0.5155847822910203,0.9785491960845824,dfc_dt_pa_per_h = a_param_pa_per_h * exp(k_param_per_c * t_minus_tg_c)
+20.0,4,dfc_dt_pa_per_h,60.96614981220336,0.5329326968060314,0.9722548567796353,dfc_dt_pa_per_h = a_param_pa_per_h * exp(k_param_per_c * t_minus_tg_c)

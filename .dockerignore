@@ -1,0 +1,31 @@
+.codex
+.git
+.gitignore
+.pytest_cache
+.venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+# Local source/reference material, not needed to run the app
+docs/
+excel/
+equations/
+fig/
+matlab/
+notebooks/
+reports/
+
+# Frontend dependency and build output are recreated in the image
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
+
+# Editor and OS files
+.DS_Store
+.idea/
+.vscode/
+tmp/
+~$*.xlsx

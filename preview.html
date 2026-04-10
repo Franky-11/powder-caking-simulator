@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Powder Caking Design Preview</title>
+    <style>
+      :root {
+        --background: #f4f4f4;
+        --surface: #ffffff;
+        --surface-muted: #f8f8f8;
+        --border-subtle: #e0e0e0;
+        --border-strong: #8d8d8d;
+        --text-primary: #161616;
+        --text-secondary: #525252;
+        --text-muted: #6f6f6f;
+        --interactive: #0f62fe;
+        --interactive-hover: #0043ce;
+        --success: #24a148;
+        --warning: #f1c21b;
+        --danger: #da1e28;
+        --info: #4589ff;
+        --chart-temp: #0f62fe;
+        --chart-rh: #009d9a;
+        --chart-moisture: #8a3ffc;
+        --chart-strength: #da1e28;
+        --chart-grid: #e0e0e0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--background);
+        color: var(--text-primary);
+        font-family:
+          "IBM Plex Sans", Inter, ui-sans-serif, system-ui, -apple-system,
+          BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+      }
+
+      code,
+      .mono {
+        font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      }
+
+      .top-bar {
+        display: flex;
+        min-height: 56px;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--border-subtle);
+        background: var(--surface);
+        padding: 0 24px;
+      }
+
+      .brand {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .brand-title {
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .brand-subtitle,
+      .meta {
+        color: var(--text-secondary);
+        font-size: 12px;
+      }
+
+      .api-status {
+        border-left: 4px solid var(--success);
+        padding: 8px 0 8px 12px;
+        color: var(--text-secondary);
+      }
+
+      .page {
+        margin: 0 auto;
+        max-width: 1440px;
+        padding: 24px;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(320px, 400px) minmax(0, 1fr);
+        gap: 24px;
+        align-items: start;
+      }
+
+      .panel {
+        border: 1px solid var(--border-subtle);
+        background: var(--surface);
+      }
+
+      .panel-header {
+        border-bottom: 1px solid var(--border-subtle);
+        padding: 16px;
+      }
+
+      .panel-title {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 24px;
+      }
+
+      .panel-body {
+        padding: 16px;
+      }
+
+      .field-stack {
+        display: grid;
+        gap: 16px;
+      }
+
+      .field {
+        display: grid;
+        gap: 6px;
+      }
+
+      label {
+        color: var(--text-primary);
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 16px;
+      }
+
+      input,
+      select {
+        min-height: 40px;
+        width: 100%;
+        border: 0;
+        border-bottom: 1px solid var(--border-strong);
+        background: var(--background);
+        color: var(--text-primary);
+        font: inherit;
+        padding: 0 12px;
+      }
+
+      input:focus,
+      select:focus,
+      button:focus {
+        outline: 2px solid var(--interactive);
+        outline-offset: 2px;
+      }
+
+      .helper {
+        color: var(--text-muted);
+        font-size: 12px;
+      }
+
+      .button-row {
+        display: flex;
+        gap: 8px;
+        padding-top: 8px;
+      }
+
+      button {
+        min-height: 40px;
+        border-radius: 0;
+        border: 1px solid transparent;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 500;
+        padding: 0 16px;
+      }
+
+      .button-primary {
+        background: var(--interactive);
+        color: #ffffff;
+      }
+
+      .button-primary:hover {
+        background: var(--interactive-hover);
+      }
+
+      .button-secondary {
+        border-color: var(--border-strong);
+        background: var(--surface);
+        color: var(--text-primary);
+      }
+
+      .result-band {
+        display: grid;
+        gap: 16px;
+      }
+
+      .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1px;
+        background: var(--border-subtle);
+        border: 1px solid var(--border-subtle);
+      }
+
+      .kpi {
+        min-height: 104px;
+        background: var(--surface);
+        padding: 14px 16px;
+        border-left: 4px solid transparent;
+      }
+
+      .kpi.success {
+        border-left-color: var(--success);
+      }
+
+      .kpi.warning {
+        border-left-color: var(--warning);
+      }
+
+      .kpi.danger {
+        border-left-color: var(--danger);
+      }
+
+      .kpi-label {
+        color: var(--text-secondary);
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 16px;
+      }
+
+      .kpi-value {
+        margin-top: 10px;
+        font-size: 28px;
+        font-weight: 400;
+        line-height: 36px;
+      }
+
+      .kpi-unit {
+        color: var(--text-muted);
+        font-size: 13px;
+      }
+
+      .warning-list {
+        display: grid;
+        gap: 8px;
+      }
+
+      .banner {
+        border: 1px solid var(--border-subtle);
+        border-left: 4px solid var(--warning);
+        background: var(--surface);
+        padding: 12px 16px;
+      }
+
+      .banner.danger {
+        border-left-color: var(--danger);
+      }
+
+      .chart-panel {
+        margin-top: 24px;
+      }
+
+      .chart-placeholder {
+        height: 340px;
+        border-top: 1px solid var(--border-subtle);
+        background:
+          linear-gradient(var(--chart-grid) 1px, transparent 1px),
+          linear-gradient(90deg, var(--chart-grid) 1px, transparent 1px),
+          #ffffff;
+        background-size: 100% 68px, 96px 100%;
+        padding: 24px;
+        position: relative;
+      }
+
+      .chart-line {
+        position: absolute;
+        left: 48px;
+        right: 40px;
+        height: 2px;
+        background: var(--chart-strength);
+        top: 148px;
+      }
+
+      .chart-line::after {
+        content: "kritische Festigkeit 20 kPa";
+        position: absolute;
+        right: 0;
+        bottom: 8px;
+        color: var(--danger);
+        font-size: 12px;
+      }
+
+      .legend {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .legend-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--text-secondary);
+        font-size: 12px;
+      }
+
+      .swatch {
+        width: 14px;
+        height: 3px;
+        background: var(--chart-temp);
+      }
+
+      .swatch.rh {
+        background: var(--chart-rh);
+      }
+
+      .swatch.strength {
+        background: var(--chart-strength);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        border-bottom: 1px solid var(--border-subtle);
+        padding: 10px 12px;
+        text-align: left;
+      }
+
+      th {
+        background: var(--surface-muted);
+        color: var(--text-secondary);
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      td.num {
+        text-align: right;
+      }
+
+      @media (max-width: 900px) {
+        .top-bar {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 12px;
+          padding: 16px;
+        }
+
+        .page {
+          padding: 16px;
+        }
+
+        .layout {
+          grid-template-columns: 1fr;
+        }
+
+        .kpi-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="top-bar">
+      <div class="brand">
+        <div class="brand-title">Powder Caking Simulator</div>
+        <div class="brand-subtitle">25-kg-Sack · Containertransport · MMP 1</div>
+      </div>
+      <div class="api-status">API bereit · letztes Profil: real_container_logger_profile</div>
+    </header>
+
+    <main class="page">
+      <section class="layout">
+        <aside class="panel">
+          <div class="panel-header">
+            <h1 class="panel-title">Simulation</h1>
+            <div class="meta">Eingaben mit Einheiten, Presets und Zeitschrittweite</div>
+          </div>
+          <div class="panel-body">
+            <div class="field-stack">
+              <div class="field">
+                <label for="preset">Klimaprofil</label>
+                <select id="preset">
+                  <option>neutral_reference_transport</option>
+                  <option>tropical_sea_transport_southeast_asia</option>
+                  <option>hot_humid_worst_case</option>
+                  <option>real_container_logger_profile</option>
+                </select>
+                <div class="helper">Preset, CSV oder eigene Zeitreihe.</div>
+              </div>
+
+              <div class="field">
+                <label for="moisture">Startfeuchte [% db]</label>
+                <input id="moisture" value="3.8" />
+              </div>
+
+              <div class="field">
+                <label for="stress">Konsolidierungsspannung [kPa]</label>
+                <select id="stress">
+                  <option>20</option>
+                  <option>11</option>
+                </select>
+                <div class="helper">Aktuell verfuegbare Fits: <span class="mono">11 kPa</span>, <span class="mono">20 kPa</span>.</div>
+              </div>
+
+              <div class="field">
+                <label for="method">Integrationsmethode</label>
+                <select id="method">
+                  <option>euler</option>
+                  <option>heun</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="dt">Simulationsschrittweite [d]</label>
+                <input id="dt" value="0.0416667" />
+                <div class="helper">Stündlich: <span class="mono">1 / 24</span>.</div>
+              </div>
+
+              <div class="button-row">
+                <button class="button-primary">Simulieren</button>
+                <button class="button-secondary">Profil prüfen</button>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <section class="result-band">
+          <div class="kpi-grid">
+            <article class="kpi success">
+              <div class="kpi-label">Caking-Status</div>
+              <div class="kpi-value">Nicht verklumpt</div>
+              <div class="kpi-unit">Schwelle: 20 kPa</div>
+            </article>
+            <article class="kpi warning">
+              <div class="kpi-label">Endfestigkeit</div>
+              <div class="kpi-value">7.15</div>
+              <div class="kpi-unit">kPa</div>
+            </article>
+            <article class="kpi">
+              <div class="kpi-label">Endfeuchte</div>
+              <div class="kpi-value">3.93</div>
+              <div class="kpi-unit">% db</div>
+            </article>
+            <article class="kpi">
+              <div class="kpi-label">End-aw</div>
+              <div class="kpi-value">0.21</div>
+              <div class="kpi-unit">dimensionslos</div>
+            </article>
+            <article class="kpi danger">
+              <div class="kpi-label">Max. T - Tg</div>
+              <div class="kpi-value">6.6</div>
+              <div class="kpi-unit">degC</div>
+            </article>
+            <article class="kpi">
+              <div class="kpi-label">Zeit bis kritisch</div>
+              <div class="kpi-value">-</div>
+              <div class="kpi-unit">nicht erreicht</div>
+            </article>
+          </div>
+
+          <div class="warning-list">
+            <div class="banner">
+              Unregelmäßige Logger-Zeitabstände werden linear auf die Simulationsschrittweite interpoliert.
+            </div>
+            <div class="banner danger">
+              Werte ab <span class="mono">sigma_c >= 20 kPa</span> gelten als verklumpt.
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section class="panel chart-panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Cake-Festigkeit und Klimaprofil</h2>
+          <div class="legend">
+            <span class="legend-item"><span class="swatch"></span>Temperatur</span>
+            <span class="legend-item"><span class="swatch rh"></span>Relative Feuchte</span>
+            <span class="legend-item"><span class="swatch strength"></span>Cake-Festigkeit</span>
+          </div>
+        </div>
+        <div class="chart-placeholder">
+          <div class="chart-line"></div>
+        </div>
+      </section>
+
+      <section class="panel chart-panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Profilvorschau</h2>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Kennzahl</th>
+              <th class="num">Temperatur [degC]</th>
+              <th class="num">Relative Feuchte [%]</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Minimum</td>
+              <td class="num">20.71</td>
+              <td class="num">59.69</td>
+            </tr>
+            <tr>
+              <td>Mittelwert</td>
+              <td class="num">27.84</td>
+              <td class="num">73.12</td>
+            </tr>
+            <tr>
+              <td>Maximum</td>
+              <td class="num">36.52</td>
+              <td class="num">92.10</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>

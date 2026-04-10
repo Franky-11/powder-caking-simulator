@@ -1,0 +1,7 @@
+fastapi
+httpx
+numpy
+openpyxl
+pandas
+pydantic
+uvicorn

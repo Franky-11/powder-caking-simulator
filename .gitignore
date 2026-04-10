@@ -1,0 +1,33 @@
+.DS_Store
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+.codex
+tmp/
+~$*.xlsx
+
+# Local source/reference material, not needed to run the app
+docs/
+excel/
+equations/
+fig/
+matlab/
+notebooks/
+
+# Generated reports
+reports/
+
+# Local/non-public processed measurement datasets
+data/processed/aw_tg_data.csv
+data/processed/critical_cake_strength.csv
+data/processed/mmp1_kinetics_summary.csv
+data/processed/mmp1_time_consolidation.csv
+data/processed/permeation_time_series.csv
+data/processed/relative_change_summary.csv
+data/processed/table2_scenario_series.csv
+data/processed/wdd_measurement_timeseries.csv
+data/processed/wdd_permeability_summary.csv
