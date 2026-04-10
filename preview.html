@@ -364,9 +364,9 @@
     <header class="top-bar">
       <div class="brand">
         <div class="brand-title">Powder Caking Simulator</div>
-        <div class="brand-subtitle">25-kg-Sack · Containertransport · MMP 1</div>
+        <div class="brand-subtitle">25 kg bag · container transport · SMP 1</div>
       </div>
-      <div class="api-status">API bereit · letztes Profil: real_container_logger_profile</div>
+      <div class="api-status">API ready · latest profile: real_container_logger_profile</div>
     </header>
 
     <main class="page">
@@ -374,37 +374,37 @@
         <aside class="panel">
           <div class="panel-header">
             <h1 class="panel-title">Simulation</h1>
-            <div class="meta">Eingaben mit Einheiten, Presets und Zeitschrittweite</div>
+            <div class="meta">Inputs with units, presets, and time step size</div>
           </div>
           <div class="panel-body">
             <div class="field-stack">
               <div class="field">
-                <label for="preset">Klimaprofil</label>
+                <label for="preset">Climate profile</label>
                 <select id="preset">
                   <option>neutral_reference_transport</option>
                   <option>tropical_sea_transport_southeast_asia</option>
                   <option>hot_humid_worst_case</option>
                   <option>real_container_logger_profile</option>
                 </select>
-                <div class="helper">Preset, CSV oder eigene Zeitreihe.</div>
+                <div class="helper">Preset, CSV, or custom time series.</div>
               </div>
 
               <div class="field">
-                <label for="moisture">Startfeuchte [% db]</label>
+                <label for="moisture">Initial moisture [% db]</label>
                 <input id="moisture" value="3.8" />
               </div>
 
               <div class="field">
-                <label for="stress">Konsolidierungsspannung [kPa]</label>
+                <label for="stress">Consolidation stress [kPa]</label>
                 <select id="stress">
                   <option>20</option>
                   <option>11</option>
                 </select>
-                <div class="helper">Aktuell verfuegbare Fits: <span class="mono">11 kPa</span>, <span class="mono">20 kPa</span>.</div>
+                <div class="helper">Currently available fits: <span class="mono">11 kPa</span>, <span class="mono">20 kPa</span>.</div>
               </div>
 
               <div class="field">
-                <label for="method">Integrationsmethode</label>
+                <label for="method">Integration method</label>
                 <select id="method">
                   <option>euler</option>
                   <option>heun</option>
@@ -412,14 +412,14 @@
               </div>
 
               <div class="field">
-                <label for="dt">Simulationsschrittweite [d]</label>
+                <label for="dt">Simulation time step [d]</label>
                 <input id="dt" value="0.0416667" />
-                <div class="helper">Stündlich: <span class="mono">1 / 24</span>.</div>
+                <div class="helper">Hourly: <span class="mono">1 / 24</span>.</div>
               </div>
 
               <div class="button-row">
-                <button class="button-primary">Simulieren</button>
-                <button class="button-secondary">Profil prüfen</button>
+                <button class="button-primary">Run simulation</button>
+                <button class="button-secondary">Preview profile</button>
               </div>
             </div>
           </div>
@@ -428,24 +428,24 @@
         <section class="result-band">
           <div class="kpi-grid">
             <article class="kpi success">
-              <div class="kpi-label">Caking-Status</div>
-              <div class="kpi-value">Nicht verklumpt</div>
-              <div class="kpi-unit">Schwelle: 20 kPa</div>
+              <div class="kpi-label">Caking status</div>
+              <div class="kpi-value">Not caked</div>
+              <div class="kpi-unit">Threshold: 20 kPa</div>
             </article>
             <article class="kpi warning">
-              <div class="kpi-label">Endfestigkeit</div>
+              <div class="kpi-label">Final strength</div>
               <div class="kpi-value">7.15</div>
               <div class="kpi-unit">kPa</div>
             </article>
             <article class="kpi">
-              <div class="kpi-label">Endfeuchte</div>
+              <div class="kpi-label">Final moisture</div>
               <div class="kpi-value">3.93</div>
               <div class="kpi-unit">% db</div>
             </article>
             <article class="kpi">
               <div class="kpi-label">End-aw</div>
               <div class="kpi-value">0.21</div>
-              <div class="kpi-unit">dimensionslos</div>
+              <div class="kpi-unit">dimensionless</div>
             </article>
             <article class="kpi danger">
               <div class="kpi-label">Max. T - Tg</div>
@@ -453,18 +453,18 @@
               <div class="kpi-unit">degC</div>
             </article>
             <article class="kpi">
-              <div class="kpi-label">Zeit bis kritisch</div>
+              <div class="kpi-label">Time to critical</div>
               <div class="kpi-value">-</div>
-              <div class="kpi-unit">nicht erreicht</div>
+              <div class="kpi-unit">not reached</div>
             </article>
           </div>
 
           <div class="warning-list">
             <div class="banner">
-              Unregelmäßige Logger-Zeitabstände werden linear auf die Simulationsschrittweite interpoliert.
+              Irregular logger time intervals are linearly interpolated to the simulation time step.
             </div>
             <div class="banner danger">
-              Werte ab <span class="mono">sigma_c >= 20 kPa</span> gelten als verklumpt.
+              Values at <span class="mono">sigma_c >= 20 kPa</span> are treated as caked.
             </div>
           </div>
         </section>
@@ -472,11 +472,11 @@
 
       <section class="panel chart-panel">
         <div class="panel-header">
-          <h2 class="panel-title">Cake-Festigkeit und Klimaprofil</h2>
+          <h2 class="panel-title">Cake strength and climate profile</h2>
           <div class="legend">
-            <span class="legend-item"><span class="swatch"></span>Temperatur</span>
-            <span class="legend-item"><span class="swatch rh"></span>Relative Feuchte</span>
-            <span class="legend-item"><span class="swatch strength"></span>Cake-Festigkeit</span>
+            <span class="legend-item"><span class="swatch"></span>Temperature</span>
+            <span class="legend-item"><span class="swatch rh"></span>Relative humidity</span>
+            <span class="legend-item"><span class="swatch strength"></span>Cake strength</span>
           </div>
         </div>
         <div class="chart-placeholder">
@@ -486,14 +486,14 @@
 
       <section class="panel chart-panel">
         <div class="panel-header">
-          <h2 class="panel-title">Profilvorschau</h2>
+          <h2 class="panel-title">Profile preview</h2>
         </div>
         <table>
           <thead>
             <tr>
-              <th>Kennzahl</th>
-              <th class="num">Temperatur [degC]</th>
-              <th class="num">Relative Feuchte [%]</th>
+              <th>Metric</th>
+              <th class="num">Temperature [degC]</th>
+              <th class="num">Relative humidity [%]</th>
             </tr>
           </thead>
           <tbody>
@@ -503,7 +503,7 @@
               <td class="num">59.69</td>
             </tr>
             <tr>
-              <td>Mittelwert</td>
+              <td>Mean</td>
               <td class="num">27.84</td>
               <td class="num">73.12</td>
             </tr>

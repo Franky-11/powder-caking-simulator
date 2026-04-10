@@ -1,8 +1,8 @@
 # Powder Caking Frontend
 
-React/Vite/TypeScript frontend fuer die Powder-Caking-Simulation.
+React/Vite/TypeScript frontend for the powder caking simulation.
 
-## Lokal starten
+## Run Locally
 
 Backend:
 
@@ -12,19 +12,16 @@ cd /home/frank/workspace/code/apps/powder-caking
 PYTHONPATH=src uvicorn powder_caking.api:app --reload
 ```
 
-Frontend:
+UI:
 
 ```bash
 cd /home/frank/workspace/code/apps/powder-caking/frontend
 npm run dev
 ```
 
-Im Vite-Entwicklungsmodus nutzt der API-Client `http://localhost:8000`. Fuer andere
-Backends kann `VITE_API_BASE_URL` gesetzt werden. Ohne gesetzte Variable nutzt der
-Client relative API-URLs, damit das gebaute Frontend zusammen mit FastAPI unter
-demselben Host laufen kann.
+In Vite development mode, the API client uses `http://localhost:8000`. For other backends, set `VITE_API_BASE_URL`. Without that variable, the client uses relative API URLs so the built frontend can run together with FastAPI on the same host.
 
-## Build fuer Ein-Server-Betrieb
+## Build For Single-Server Operation
 
 ```bash
 npm install
@@ -33,7 +30,7 @@ cd ..
 PYTHONPATH=src uvicorn powder_caking.api:app --host 0.0.0.0 --port 8000
 ```
 
-## Pruefung
+## Checks
 
 ```bash
 npm run build

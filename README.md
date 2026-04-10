@@ -1,88 +1,85 @@
 # Powder Caking Simulator
 
-Web-App zur Bewertung des Caking-Risikos von Magermilchpulver im 25-kg-Sack während Transport und Lagerung. Die App berechnet aus Klimaprofilen die Feuchteaufnahme, Wasseraktivität, Glasübergangstemperatur, Pulverfestigkeit und das daraus abgeleitete Verklumpungsrisiko.
+Web app for assessing the caking risk of skim milk powder in a 25 kg bag during transport and storage. The app derives moisture uptake, water activity, glass transition temperature, powder strength, and the resulting caking risk from climate profiles.
 
-## Funktionen
+## Features
 
-- Startseite mit fachlichem Einstieg und direkter Navigation zum Simulator.
-- Klimaprofile als Preset, reales Loggerprofil oder eigenes CSV-Profil.
-- Profilprüfung mit Dauer, Datenpunkten, Temperaturbereich und relativer Feuchte.
-- Simulation von Pulverfeuchte, `aw`, `Tg`, `T - Tg`, Caking-Rate und Verfestigungssapnnung `σ_c`.
-- Ergebnis-KPIs für Endfestigkeit, Caking-Status, Zeit bis zur kritischen Schwelle, Endfeuchte, End-`aw` und maximale `T - Tg`-Differenz.
-- Diagramme für Klima, Feuchte, Glasübergang und Caking-Kinetik.
-- Rückrechnung der maximal sicheren Startfeuchte für ein gegebenes Klimaprofil.
-- Expertenmodus für Modellparameter wie GAB, Sackdaten, Schwellenwerte und Permeabilität.
-- Modellgrundlage mit Prozesskette, Formeln und kompakten Erläuterungen zur verwendeten Modellbasis.
+- Landing page with technical context and direct navigation to the simulator.
+- Climate profiles as presets, a measured logger profile, or custom CSV input.
+- Profile preview with duration, number of points, temperature range, and relative humidity range.
+- Simulation of powder moisture, `aw`, `Tg`, `T - Tg`, caking rate, and consolidation strength `σ_c`.
+- Result KPIs for final strength, caking status, time to the critical threshold, final moisture, final `aw`, and maximum `T - Tg`.
+- Charts for climate, moisture, glass transition, and caking kinetics.
+- Back-calculation of the maximum safe initial moisture for a given climate profile.
+- Expert mode for model parameters such as GAB, bag data, thresholds, and permeability.
+- Model basis page with process chain, equations, and concise notes on the simulation basis.
 
-## Eindruck der App
+## App Preview
 
-### Startseite
+### Home
 
-<img src="frontend/public/readme/start-overview.png" alt="Startseite" width="960" />
+<img src="frontend/public/readme/start-overview.png" alt="Home screen" width="960" />
 
 ### Simulator
 
-<img src="frontend/public/readme/simulator-results.png" alt="Simulator - Ergebnisse" width="960" />
+<img src="frontend/public/readme/simulator-results.png" alt="Simulator results" width="960" />
 
-<img src="frontend/public/readme/simulator-figures.png" alt="Simulator - Eingaben und Diagramme" width="960" />
+<img src="frontend/public/readme/simulator-figures.png" alt="Simulator inputs and charts" width="960" />
 
+## Data Origin
 
+The measurement data and derived tables used in the app were collected and prepared within the AiF 18643 BR research project.
 
-## Datenherkunft
+## Requirements
 
-Die in der App verwendeten Messdaten und daraus abgeleiteten Tabellen wurden im Rahmen des
-Forschungsvorhabens AiF 18643 BR erhoben bzw. aufbereitet.
+- Git
+- Python 3.12 or a compatible Python 3 version
+- Node.js and npm
+- Optional: Docker and Docker Compose for the simplest local setup
 
-## Voraussetzungen
+## Quick Start With Docker
 
-- Git.
-- Python 3.12 oder eine kompatible Python-3-Version.
-- Node.js und npm.
-- Optional Docker und Docker Compose für den einfachsten lokalen Start.
-
-## Schnellstart mit Docker
-
-Repository klonen und in den Projektordner wechseln:
+Clone the repository and change into the project directory:
 
 ```bash
 git clone https://github.com/Franky-11/powder-caking-simulator.git
 cd powder-caking
 ```
 
-Container bauen und starten:
+Build and start the containers:
 
 ```bash
 docker compose up --build
 ```
 
-Die komplette App läuft dann unter:
+The full app is then available at:
 
 ```text
 http://localhost:8000
 ```
 
-Container stoppen:
+Stop containers:
 
 ```bash
 docker compose stop
 ```
 
-Container stoppen und entfernen:
+Stop and remove containers:
 
 ```bash
 docker compose down
 ```
 
-## Manuelle Installation
+## Manual Installation
 
-Repository klonen und in den Projektordner wechseln:
+Clone the repository and change into the project directory:
 
 ```bash
 git clone https://github.com/Franky-11/powder-caking-simulator.git
 cd powder-caking
 ```
 
-Python-Umgebung für das Backend anlegen und Abhängigkeiten installieren:
+Create a Python environment for the backend and install dependencies:
 
 ```bash
 python -m venv .venv
@@ -90,7 +87,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Unter Windows:
+On Windows:
 
 ```powershell
 python -m venv .venv
@@ -98,7 +95,7 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-Frontend-Abhängigkeiten installieren und Frontend bauen:
+Install frontend dependencies and build the frontend:
 
 ```bash
 cd frontend
@@ -107,19 +104,18 @@ npm run build
 cd ..
 ```
 
-## Lokal Starten Ohne Docker
+## Run Locally Without Docker
 
-Für die normale lokale Nutzung reicht ein Server. FastAPI liefert dabei zusätzlich
-zu den API-Endpunkten das gebaute Frontend aus `frontend/dist/` aus.
+For normal local use, a single server is sufficient. FastAPI serves the built frontend from `frontend/dist/` in addition to the API endpoints.
 
-Im Repo-Root starten:
+Start from the repo root:
 
 ```bash
 source .venv/bin/activate
 PYTHONPATH=src uvicorn powder_caking.api:app --host 0.0.0.0 --port 8000
 ```
 
-Unter Windows:
+On Windows:
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
@@ -127,55 +123,56 @@ $env:PYTHONPATH = "src"
 uvicorn powder_caking.api:app --host 0.0.0.0 --port 8000
 ```
 
-Die komplette App läuft dann unter:
+The full app is then available at:
 
 ```text
 http://localhost:8000
 ```
 
-React-Routen fallen auf `frontend/dist/index.html` zurück.
+React routes fall back to `frontend/dist/index.html`.
 
-## Entwicklungsmodus mit Vite
+## Development Mode With Vite
 
-Für UI-Entwicklung kann das Frontend weiterhin separat mit Vite-Hot-Reload
-laufen. Backend im Repo-Root starten:
+For UI development, the frontend can still run separately with Vite hot reload.
+
+Start the backend from the repo root:
 
 ```bash
 source .venv/bin/activate
 PYTHONPATH=src uvicorn powder_caking.api:app --reload
 ```
 
-Frontend in einem zweiten Terminal starten:
+Start the frontend in a second terminal:
 
 ```bash
 cd frontend
 npm run dev
 ```
 
-Das Frontend läuft dann unter:
+The frontend is then available at:
 
 ```text
 http://localhost:5173
 ```
 
-Im Vite-Entwicklungsmodus nutzt der Frontend-Client `http://localhost:8000` als API. Für ein anderes Backend kann `VITE_API_BASE_URL` gesetzt werden.
+In Vite development mode, the frontend client uses `http://localhost:8000` as its API. For a different backend, set `VITE_API_BASE_URL`.
 
-## Bedienung
+## Usage
 
-1. App öffnen und auf der Startseite `Zum Simulator` wählen.
-2. Profilquelle auswählen:
-   - `Preset` für vordefinierte Klimaprofile.
-   - `CSV` für eigene Zeitreihen.
-3. Startfeuchte, Konsolidierungsspannung, Integrationsmethode und Zeitschritt prüfen.
-4. Optional `Profil prüfen` ausführen, um Datenbereich und Warnungen zu sehen.
-5. `Simulieren` starten.
-6. Ergebnis-KPIs und Diagramme auswerten.
-7. Optional `Limit berechnen` ausführen, um die maximal sichere Startfeuchte für dasselbe Profil zu bestimmen.
-8. Unter `Modellgrundlage` die verwendeten Gleichungen, Prozessschritte und Referenzdaten prüfen.
+1. Open the app and choose `Open simulator` on the home screen.
+2. Select a profile source:
+   - `Preset` for predefined climate profiles
+   - `CSV` for custom time series
+3. Check the initial moisture, consolidation stress, integration method, and time step.
+4. Optionally run `Preview profile` to inspect the data range and warnings.
+5. Start `Run simulation`.
+6. Review result KPIs and charts.
+7. Optionally run `Calculate limit` to determine the maximum safe initial moisture for the same profile.
+8. Open `Model basis` to inspect the equations, process steps, and reference data.
 
-## CSV-Profil
+## CSV Profile
 
-Eigene Klimaprofile können als CSV-Datei oder per Texteingabe geladen werden. Erwartete Spalten:
+Custom climate profiles can be loaded from a CSV file or pasted as text. Expected columns:
 
 ```csv
 time_d,temperature_c,relative_humidity_pct
@@ -184,26 +181,26 @@ time_d,temperature_c,relative_humidity_pct
 2,30,75
 ```
 
-`time_d` ist die Zeit in Tagen. Alternativ kann die API Zeitstempelprofile verarbeiten und auf verstrichene Tage abbilden.
+`time_d` is time in days. Alternatively, the API can process timestamp-based profiles and convert them to elapsed days.
 
-## Ergebnisinterpretation
+## Interpreting Results
 
-- `σ_c` beschreibt die berechnete Pulverfestigkeit.
-- Die kritische Schwelle liegt standardmäßig bei `20 kPa`.
-- `Nicht verklumpt` bedeutet, dass die berechnete Festigkeit unter der kritischen Schwelle bleibt.
-- `Verklumpt` bedeutet, dass die kritische Schwelle erreicht oder überschritten wurde.
-- Die Startfeuchte-Rückrechnung sucht die höchste Startfeuchte, bei der das Profil unterhalb der kritischen Schwelle bleibt.
+- `σ_c` describes the calculated powder strength.
+- The critical threshold defaults to `20 kPa`.
+- `Not caked` means the calculated strength remains below the critical threshold.
+- `Caked` means the critical threshold has been reached or exceeded.
+- The initial moisture back-calculation searches for the highest initial moisture that keeps the profile below the critical threshold.
 
-## Tests und Checks
+## Tests and Checks
 
-Backend-Tests:
+Backend tests:
 
 ```bash
 source .venv/bin/activate
 python -m unittest discover -s tests -v
 ```
 
-Frontend-Build und Lint:
+Frontend build and lint:
 
 ```bash
 cd frontend
@@ -211,12 +208,12 @@ npm run build
 npm run lint
 ```
 
-Wenn lokale Excel-Rohdaten fehlen, werden nur die Excel-abhängigen Extractor-Tests übersprungen. Die App-, API-, Klima- und Simulations-Tests laufen weiterhin.
+If local Excel raw data is missing, only the Excel-dependent extractor tests are skipped. The app, API, climate, and simulation tests still run.
 
-## Repository-Inhalt
+## Repository Contents
 
-- `src/powder_caking/`: Backend, Simulationskern, API-Service und Modelllogik.
-- `frontend/`: React/Vite/TypeScript-Frontend.
-- `data/processed/`: verarbeitete CSV-Daten für Modellparameter, Referenzdaten und Klimaprofile.
-- `tests/`: Backend-, API-, Klima-, Simulations- und optionale Extractor-Tests.
-- `scripts/`: Hilfsskripte zur Datenextraktion und Modellparametrisierung.
+- `src/powder_caking/`: backend, simulation core, API service, and model logic
+- `frontend/`: React/Vite/TypeScript frontend
+- `data/processed/`: processed CSV data for model parameters, reference data, and climate profiles
+- `tests/`: backend, API, climate, simulation, and optional extractor tests
+- `scripts/`: helper scripts for data extraction and model parameter fitting
