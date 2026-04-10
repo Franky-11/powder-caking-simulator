@@ -39,7 +39,6 @@ Forschungsvorhabens AiF 18643 BR erhoben bzw. aufbereitet.
 - Python 3.12 oder eine kompatible Python-3-Version.
 - Node.js und npm.
 - Optional Docker und Docker Compose für den einfachsten lokalen Start.
-- Die App nutzt die versionierten CSV-Daten unter `data/processed/`. Lokale Rohdaten aus `excel/`, `docs/`, `fig/`, `matlab/` oder `equations/` sind für den Betrieb nicht erforderlich und werden nicht versioniert.
 
 ## Schnellstart mit Docker
 
