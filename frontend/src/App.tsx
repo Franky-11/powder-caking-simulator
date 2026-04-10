@@ -69,11 +69,11 @@ type MoistureLimitBoundsState = {
 }
 
 const presetLabels: Record<string, string> = {
-  neutral_reference_transport: 'Referenztransport neutral',
-  tropical_sea_transport_southeast_asia: 'Tropischer Seetransport',
-  hot_humid_worst_case: 'Heiss-feuchter Worst Case',
-  day_night_container_profile: 'Tag/Nacht Containerprofil',
-  real_container_logger_profile: 'Reales Loggerprofil',
+  neutral_reference_transport: 'Neutral reference transport',
+  tropical_sea_transport_southeast_asia: 'Tropical sea freight',
+  hot_humid_worst_case: 'Hot and humid worst case',
+  day_night_container_profile: 'Day/night container profile',
+  real_container_logger_profile: 'Measured container logger profile',
 }
 
 const emptyExpertParameters: ExpertParameterState = {
@@ -147,7 +147,7 @@ function App() {
           return
         }
         setApiStatus('offline')
-        setMessage(error instanceof Error ? error.message : 'API nicht erreichbar')
+        setMessage(error instanceof Error ? error.message : 'API not reachable')
       })
 
     return () => {
@@ -159,7 +159,7 @@ function App() {
   const allWarnings = [
     ...(preview?.warnings ?? []),
     ...(result?.warnings ?? []),
-    ...(moistureLimit?.warnings.map((warning) => `Startfeuchte: ${warning}`) ?? []),
+    ...(moistureLimit?.warnings.map((warning) => `Initial moisture: ${warning}`) ?? []),
   ]
   const statusClass = result?.summary.is_caked ? 'danger' : 'success'
   const canSubmit = apiStatus === 'online' && isProfileInputReady(profileSource, selectedPreset, csvText)
@@ -186,7 +186,7 @@ function App() {
       tooltip: { trigger: 'axis' },
       xAxis: {
         type: 'value',
-        name: 'Zeit d',
+        name: 'Time d',
         nameLocation: 'middle',
         nameGap: 30,
         axisLabel: { color: '#525252', fontSize: 12 },
@@ -195,27 +195,27 @@ function App() {
       yAxis: [
         {
           type: 'value',
-          name: 'Temperatur C',
+          name: 'Temperature C',
           axisLabel: { color: '#525252', fontSize: 12 },
           splitLine: { lineStyle: { color: '#e0e0e0' } },
         },
         {
           type: 'value',
-          name: 'rF %',
+          name: 'RH %',
           axisLabel: { color: '#525252', fontSize: 12 },
           splitLine: { show: false },
         },
       ],
       series: [
         {
-          name: 'Temperatur',
+          name: 'Temperature',
           type: 'line',
           showSymbol: false,
           lineStyle: { width: 2 },
           data: result.time_series.map((row) => [row.time_d, row.temperature_c]),
         },
         {
-          name: 'Relative Feuchte',
+          name: 'Relative humidity',
           type: 'line',
           yAxisIndex: 1,
           showSymbol: false,
@@ -240,7 +240,7 @@ function App() {
       tooltip: { trigger: 'axis' },
       xAxis: {
         type: 'value',
-        name: 'Zeit d',
+        name: 'Time d',
         nameLocation: 'middle',
         nameGap: 30,
         axisLabel: { color: '#525252', fontSize: 12 },
@@ -254,7 +254,7 @@ function App() {
       },
       series: [
         {
-          name: 'Cake-Festigkeit',
+          name: 'Cake strength',
           type: 'line',
           showSymbol: false,
           lineStyle: { width: 2 },
@@ -262,7 +262,7 @@ function App() {
           markLine: {
             symbol: 'none',
             label: {
-              formatter: 'kritische Festigkeit 20 kPa',
+              formatter: 'critical strength 20 kPa',
               color: '#da1e28',
             },
             lineStyle: { color: '#da1e28', width: 2, type: 'dashed' },
@@ -286,7 +286,7 @@ function App() {
       tooltip: { trigger: 'axis' },
       xAxis: {
         type: 'value',
-        name: 'Zeit d',
+        name: 'Time d',
         nameLocation: 'middle',
         nameGap: 30,
         axisLabel: { color: '#525252', fontSize: 12 },
@@ -295,7 +295,7 @@ function App() {
       yAxis: [
         {
           type: 'value',
-          name: 'Feuchte % db',
+          name: 'Moisture % db',
           axisLabel: { color: '#525252', fontSize: 12 },
           splitLine: { lineStyle: { color: '#e0e0e0' } },
         },
@@ -308,14 +308,14 @@ function App() {
       ],
       series: [
         {
-          name: 'Pulverfeuchte',
+          name: 'Powder moisture',
           type: 'line',
           showSymbol: false,
           lineStyle: { width: 2 },
           data: result.time_series.map((row) => [row.time_d, row.moisture_db_pct]),
         },
         {
-          name: 'Wasseraktivität',
+          name: 'Water activity',
           type: 'line',
           yAxisIndex: 1,
           showSymbol: false,
@@ -336,14 +336,14 @@ function App() {
       color: ['#0f62fe', '#6f6f6f', '#fa4d56'],
       grid: { left: 56, right: 24, top: 48, bottom: 48 },
       legend: {
-        data: ['Temperatur', 'Tg Vuataz', 'T > Tg'],
+        data: ['Temperature', 'Tg Vuataz', 'T > Tg'],
         top: 8,
         textStyle: { color: '#525252', fontSize: 12 },
       },
       tooltip: { trigger: 'axis' },
       xAxis: {
         type: 'value',
-        name: 'Zeit d',
+        name: 'Time d',
         nameLocation: 'middle',
         nameGap: 30,
         axisLabel: { color: '#525252', fontSize: 12 },
@@ -351,13 +351,13 @@ function App() {
       },
       yAxis: {
         type: 'value',
-        name: 'Temperatur C',
+        name: 'Temperature C',
         axisLabel: { color: '#525252', fontSize: 12 },
         splitLine: { lineStyle: { color: '#e0e0e0' } },
       },
       series: [
         {
-          name: 'Temperatur',
+          name: 'Temperature',
           type: 'line',
           showSymbol: false,
           lineStyle: { width: 2 },
@@ -398,7 +398,7 @@ function App() {
       tooltip: { trigger: 'axis' },
       xAxis: {
         type: 'value',
-        name: 'Zeit d',
+        name: 'Time d',
         nameLocation: 'middle',
         nameGap: 30,
         axisLabel: { color: '#525252', fontSize: 12 },
@@ -412,7 +412,7 @@ function App() {
       },
       series: [
         {
-          name: 'Caking-Rate',
+          name: 'Caking rate',
           type: 'line',
           showSymbol: false,
           lineStyle: { width: 2 },
@@ -433,7 +433,7 @@ function App() {
       const profilePreview = await previewProfile(buildProfileInput())
       setPreview(profilePreview)
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : 'Profilprüfung fehlgeschlagen')
+      setMessage(error instanceof Error ? error.message : 'Profile preview failed')
     } finally {
       setIsPreviewing(false)
     }
@@ -471,7 +471,7 @@ function App() {
         warnings: simulationResult.warnings,
       })
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : 'Simulation fehlgeschlagen')
+      setMessage(error instanceof Error ? error.message : 'Simulation failed')
     } finally {
       setIsSimulating(false)
     }
@@ -495,7 +495,7 @@ function App() {
       })
       setMoistureLimit(limitResult)
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : 'Startfeuchte-Rückrechnung fehlgeschlagen')
+      setMessage(error instanceof Error ? error.message : 'Initial moisture back-calculation failed')
     } finally {
       setIsCalculatingMoistureLimit(false)
     }
@@ -542,7 +542,7 @@ function App() {
       setPreview(null)
       clearResultOutputs()
     } catch {
-      setMessage('CSV-Datei konnte nicht gelesen werden')
+      setMessage('Could not read CSV file')
     }
   }
 
@@ -609,15 +609,15 @@ function App() {
       <header className="top-bar">
         <div className="brand">
           <span className="brand-title">Powder Caking Simulator</span>
-          <span className="brand-subtitle">Magermilchpulver im 25-kg-Sack</span>
+          <span className="brand-subtitle">Skim milk powder in a 25 kg bag</span>
         </div>
-        <nav className="top-nav" aria-label="Hauptansicht">
+        <nav className="top-nav" aria-label="Main view">
           <button
             type="button"
             className={activeView === 'start' ? 'active' : ''}
             onClick={() => setActiveView('start')}
           >
-            Start
+            Home
           </button>
           <button
             type="button"
@@ -631,7 +631,7 @@ function App() {
             className={activeView === 'model' ? 'active' : ''}
             onClick={() => setActiveView('model')}
           >
-            Modellgrundlage
+            Model basis
           </button>
         </nav>
       </header>
@@ -644,13 +644,13 @@ function App() {
           <section className="panel input-panel" aria-labelledby="input-title">
             <div className="panel-header">
               <h1 id="input-title" className="panel-title">
-                Simulationseingaben
+                Simulation inputs
               </h1>
-              <p className="panel-meta">Caking-Fit, Klimaprofil und Integrationsschritt</p>
+              <p className="panel-meta">Caking fit, climate profile, and integration step</p>
             </div>
             <div className="panel-body field-stack">
               <fieldset className="segmented-field">
-                <legend>Profilquelle</legend>
+                <legend>Profile source</legend>
                 <div className="segmented-control">
                   <label className={profileSource === 'preset' ? 'selected' : ''}>
                     <input
@@ -676,7 +676,7 @@ function App() {
               </fieldset>
 
               <div className="field">
-                <label htmlFor="preset">Klimaprofil</label>
+                <label htmlFor="preset">Climate profile</label>
                 <select
                   id="preset"
                   value={selectedPreset}
@@ -694,20 +694,20 @@ function App() {
                   ))}
                 </select>
                 {profileSource === 'preset' && selectedPresetDetails ? (
-                  <span className="helper">Preset aktiv</span>
+                  <span className="helper">Preset selected</span>
                 ) : profileSource === 'csv' ? (
-                  <span className="helper">CSV-Eingabe ist aktiv</span>
+                  <span className="helper">CSV input selected</span>
                 ) : (
-                  <span className="helper">Presets werden geladen</span>
+                  <span className="helper">Loading presets</span>
                 )}
               </div>
 
               {profileSource === 'csv' && (
                 <div className="field">
-                  <label htmlFor="csv-file">CSV-Profil</label>
+                  <label htmlFor="csv-file">CSV profile</label>
                   <input id="csv-file" type="file" accept=".csv,text/csv" onChange={handleCsvFileChange} />
                   <span className="helper">
-                    {csvFileName ?? 'Spalten: time_d, temperature_c, relative_humidity_pct'}
+                    {csvFileName ?? 'Columns: time_d, temperature_c, relative_humidity_pct'}
                   </span>
                   <textarea
                     id="csv-text"
@@ -719,14 +719,14 @@ function App() {
                     }}
                     spellCheck={false}
                     rows={8}
-                    aria-label="CSV-Text"
+                    aria-label="CSV text"
                   />
                 </div>
               )}
 
               <div className="field-row">
                 <div className="field">
-                  <label htmlFor="initial-moisture">Startfeuchte</label>
+                  <label htmlFor="initial-moisture">Initial moisture</label>
                   <input
                     id="initial-moisture"
                     inputMode="decimal"
@@ -739,7 +739,7 @@ function App() {
                   <span className="helper">% db</span>
                 </div>
                 <div className="field">
-                  <label htmlFor="stress">Konsolidierung</label>
+                  <label htmlFor="stress">Consolidation stress</label>
                   <select
                     id="stress"
                     value={consolidationStress}
@@ -754,7 +754,7 @@ function App() {
                       </option>
                     ))}
                   </select>
-                  <span className="helper">verfügbare Fits</span>
+                  <span className="helper">available fits</span>
                 </div>
               </div>
 
@@ -775,7 +775,7 @@ function App() {
                       </option>
                     ))}
                   </select>
-                  <span className="helper">Euler oder Heun</span>
+                  <span className="helper">Euler or Heun</span>
                 </div>
                 <div className="field">
                   <label htmlFor="dt-d">dt_d</label>
@@ -788,20 +788,20 @@ function App() {
                       clearResultOutputs()
                     }}
                   />
-                  <span className="helper">Tage je Schritt</span>
+                  <span className="helper">days per step</span>
                 </div>
               </div>
 
-              <section className="expert-panel" aria-label="Expertenmodus">
+              <section className="expert-panel" aria-label="Expert mode">
                 <button
                   type="button"
                   className="expert-toggle"
                   aria-expanded={isExpertOpen}
                   onClick={() => setIsExpertOpen((current) => !current)}
                 >
-                  <span>Expertenmodus</span>
+                  <span>Expert mode</span>
                   <span className="expert-toggle-meta">
-                    {isExpertOpen ? 'Parameter ausblenden' : 'Parameter bearbeiten'}
+                    {isExpertOpen ? 'Hide parameters' : 'Edit parameters'}
                   </span>
                 </button>
 
@@ -809,7 +809,7 @@ function App() {
                   <div className="expert-body">
                     <div className="expert-header">
                       <p>
-                        Geänderte Werte werden als Overrides gesendet. Unveränderte Werte bleiben CSV-Defaults.
+                        Changed values are sent as overrides. Unchanged values remain at the CSV defaults.
                       </p>
                       <button
                         type="button"
@@ -847,18 +847,18 @@ function App() {
                     </fieldset>
 
                     <fieldset className="expert-group">
-                      <legend>Sack</legend>
+                      <legend>Bag</legend>
                       <div className="field-row">
                         <ExpertNumberField
                           id="expert-sack-mass"
-                          label="Sackmasse"
+                          label="Bag mass"
                           value={expertParameters.sackMassKg}
                           unit="kg"
                           onChange={(value) => handleExpertFieldChange('sackMassKg', value)}
                         />
                         <ExpertNumberField
                           id="expert-sack-area"
-                          label="Sackfläche"
+                          label="Bag area"
                           value={expertParameters.sackAreaM2}
                           unit="m2"
                           onChange={(value) => handleExpertFieldChange('sackAreaM2', value)}
@@ -867,18 +867,18 @@ function App() {
                     </fieldset>
 
                     <fieldset className="expert-group">
-                      <legend>Schwelle</legend>
+                      <legend>Threshold</legend>
                       <div className="field-row">
                         <ExpertNumberField
                           id="expert-initial-sigma"
-                          label="Initiale sigma_c"
+                          label="Initial sigma_c"
                           value={expertParameters.initialSigmaCKpa}
                           unit="kPa"
                           onChange={(value) => handleExpertFieldChange('initialSigmaCKpa', value)}
                         />
                         <ExpertNumberField
                           id="expert-critical-sigma"
-                          label="Kritische sigma_c"
+                          label="Critical sigma_c"
                           value={expertParameters.criticalSigmaCKpa}
                           unit="kPa"
                           onChange={(value) => handleExpertFieldChange('criticalSigmaCKpa', value)}
@@ -887,9 +887,9 @@ function App() {
                     </fieldset>
 
                     <fieldset className="expert-group">
-                      <legend>Permeabilität</legend>
+                      <legend>Permeability</legend>
                       <div className="field">
-                        <label htmlFor="expert-permeability-mode">Modus</label>
+                        <label htmlFor="expert-permeability-mode">Mode</label>
                         <select
                           id="expert-permeability-mode"
                           value={expertParameters.permeabilityMode}
@@ -900,7 +900,7 @@ function App() {
                           <option value="temperature_dependent">temperature_dependent</option>
                           <option value="constant">constant</option>
                         </select>
-                        <span className="helper">Arrhenius oder konstanter k/delta-Wert</span>
+                        <span className="helper">Arrhenius or constant k/delta value</span>
                       </div>
 
                       {expertParameters.permeabilityMode === 'temperature_dependent' ? (
@@ -915,14 +915,14 @@ function App() {
                           <div className="field-row">
                             <ExpertNumberField
                               id="expert-ea"
-                              label="Aktivierungsenergie"
+                              label="Activation energy"
                               value={expertParameters.permeabilityActivationEnergy}
                               unit="J/kmol"
                               onChange={(value) => handleExpertFieldChange('permeabilityActivationEnergy', value)}
                             />
                             <ExpertNumberField
                               id="expert-r"
-                              label="Gaskonstante"
+                              label="Gas constant"
                               value={expertParameters.permeabilityGasConstant}
                               unit="J/(kmol*K)"
                               onChange={(value) => handleExpertFieldChange('permeabilityGasConstant', value)}
@@ -932,7 +932,7 @@ function App() {
                       ) : (
                         <ExpertNumberField
                           id="expert-constant-k"
-                          label="k/delta konstant"
+                          label="Constant k/delta"
                           value={expertParameters.permeabilityConstantK}
                           placeholder={constantPermeabilityPlaceholder}
                           unit="kg/(m2*d*Pa)"
@@ -946,19 +946,19 @@ function App() {
 
               <div className="button-row">
                 <button className="button-secondary" onClick={handlePreview} disabled={!canSubmit || isPreviewing}>
-                  {isPreviewing ? 'Prüfe Profil' : 'Profil prüfen'}
+                  {isPreviewing ? 'Previewing profile' : 'Preview profile'}
                 </button>
                 <button className="button-primary" onClick={handleSimulate} disabled={!canSubmit || isSimulating}>
-                  {isSimulating ? 'Simuliere' : 'Simulieren'}
+                  {isSimulating ? 'Running simulation' : 'Run simulation'}
                 </button>
               </div>
 
-              <section className="moisture-limit-panel" aria-label="Startfeuchte-Rückrechnung">
+              <section className="moisture-limit-panel" aria-label="Initial moisture back-calculation">
                 <div className="moisture-limit-actions">
                   <div>
-                    <h2>Startfeuchte-Rückrechnung</h2>
+                    <h2>Initial moisture back-calculation</h2>
                     <p>
-                      Suchbereich: {formatBoundsLabel(moistureLimitBounds.minInitialMoisture)} bis{' '}
+                      Search range: {formatBoundsLabel(moistureLimitBounds.minInitialMoisture)} to{' '}
                       {formatBoundsLabel(moistureLimitBounds.maxInitialMoisture)} % db
                     </p>
                   </div>
@@ -968,18 +968,18 @@ function App() {
                     onClick={handleCalculateMoistureLimit}
                     disabled={!canCalculateMoistureLimit || isCalculatingMoistureLimit}
                   >
-                    {isCalculatingMoistureLimit ? 'Berechne' : 'Limit berechnen'}
+                    {isCalculatingMoistureLimit ? 'Calculating' : 'Calculate limit'}
                   </button>
                 </div>
                 {!result && (
                   <p className="moisture-limit-hint">
-                    Bitte zuerst das Profil simulieren. Danach kann das Startfeuchte-Limit berechnet werden.
+                    Run the profile simulation first. The initial moisture limit can be calculated afterwards.
                   </p>
                 )}
                 {isCalculatingMoistureLimit && (
                   <div className="moisture-limit-progress" role="status" aria-live="polite">
                     <span className="moisture-limit-progress-bar" />
-                    <span>Startfeuchte-Limit wird berechnet</span>
+                    <span>Calculating initial moisture limit</span>
                   </div>
                 )}
                 <button
@@ -988,7 +988,7 @@ function App() {
                   aria-expanded={isMoistureLimitBoundsOpen}
                   onClick={() => setIsMoistureLimitBoundsOpen((current) => !current)}
                 >
-                  {isMoistureLimitBoundsOpen ? 'Suchgrenzen ausblenden' : 'Suchgrenzen anpassen'}
+                  {isMoistureLimitBoundsOpen ? 'Hide search bounds' : 'Adjust search bounds'}
                 </button>
 
                 {isMoistureLimitBoundsOpen && (
@@ -996,14 +996,14 @@ function App() {
                     <div className="field-row">
                       <ExpertNumberField
                         id="moisture-limit-min"
-                        label="Untere Grenze"
+                        label="Lower bound"
                         value={moistureLimitBounds.minInitialMoisture}
                         unit="% db"
                         onChange={(value) => handleMoistureLimitBoundsChange('minInitialMoisture', value)}
                       />
                       <ExpertNumberField
                         id="moisture-limit-max"
-                        label="Obere Grenze"
+                        label="Upper bound"
                         value={moistureLimitBounds.maxInitialMoisture}
                         unit="% db"
                         onChange={(value) => handleMoistureLimitBoundsChange('maxInitialMoisture', value)}
@@ -1012,7 +1012,7 @@ function App() {
                     <div className="moisture-limit-footer">
                       <ExpertNumberField
                         id="moisture-limit-tolerance"
-                        label="Toleranz"
+                        label="Tolerance"
                         value={moistureLimitBounds.tolerance}
                         unit="% db"
                         onChange={(value) => handleMoistureLimitBoundsChange('tolerance', value)}
@@ -1022,7 +1022,7 @@ function App() {
                         className="button-secondary compact-button"
                         onClick={handleMoistureLimitBoundsReset}
                       >
-                        Zurücksetzen
+                        Reset
                       </button>
                     </div>
                   </div>
@@ -1031,7 +1031,7 @@ function App() {
             </div>
           </section>
 
-          <section className="result-band" aria-label="Simulationsergebnis">
+          <section className="result-band" aria-label="Simulation result">
             <div className="kpi-grid">
               <Kpi
                 label="End-sigma_c"
@@ -1040,13 +1040,13 @@ function App() {
                 status={statusClass}
               />
               <Kpi
-                label="Caking-Status"
-                value={result ? (result.summary.is_caked ? 'Verklumpt' : 'Nicht verklumpt') : '-'}
-                unit="Schwelle 20 kPa"
+                label="Caking status"
+                value={result ? (result.summary.is_caked ? 'Caked' : 'Not caked') : '-'}
+                unit="Threshold 20 kPa"
                 status={statusClass}
               />
               <Kpi
-                label="Zeit bis kritisch"
+                label="Time to critical"
                 value={
                   result?.summary.time_to_critical_d == null
                     ? '-'
@@ -1056,14 +1056,14 @@ function App() {
                 status={result?.summary.time_to_critical_d == null ? 'success' : 'danger'}
               />
               <Kpi
-                label="Endfeuchte"
+                label="Final moisture"
                 value={result ? formatNumber(result.summary.final_moisture_db_pct, 3) : '-'}
                 unit="% db"
               />
               <Kpi
                 label="End-aw"
                 value={result ? formatNumber(result.summary.final_water_activity, 3) : '-'}
-                unit="dimensionslos"
+                unit="dimensionless"
               />
               <Kpi
                 label="max. T - Tg"
@@ -1075,17 +1075,17 @@ function App() {
 
             <div className="panel moisture-limit-result">
               <div className="panel-header">
-                <h2 className="panel-title">Startfeuchte-Limit</h2>
-                <p className="panel-meta">Rückrechnung über den bestehenden Simulationskern</p>
+                <h2 className="panel-title">Initial moisture limit</h2>
+                <p className="panel-meta">Back-calculated with the existing simulation core</p>
               </div>
               <div className="preview-grid">
                 <Metric
-                  label="Max. sichere Startfeuchte"
+                  label="Max. safe initial moisture"
                   value={formatMoistureLimitValue(moistureLimit)}
                   status={getMoistureLimitStatus(moistureLimit)}
                 />
                 <Metric
-                  label="Aktuelle Startfeuchte"
+                  label="Current initial moisture"
                   value={
                     moistureLimit
                       ? `${formatNumber(moistureLimit.current_initial_moisture_db_pct, 2)} % db`
@@ -1094,7 +1094,7 @@ function App() {
                   status={moistureLimit?.is_current_profile_safe === false ? 'danger' : undefined}
                 />
                 <Metric
-                  label="Feuchtemarge"
+                  label="Moisture margin"
                   value={
                     moistureLimit?.moisture_margin_db_pct == null
                       ? '-'
@@ -1103,12 +1103,12 @@ function App() {
                   status={moistureMarginStatus}
                 />
                 <Metric
-                  label="Aktuelles Profil"
+                  label="Current profile"
                   value={
                     moistureLimit
                       ? moistureLimit.is_current_profile_safe
-                        ? 'Sicher'
-                        : 'Verklumpt'
+                        ? 'Safe'
+                        : 'Caked'
                       : '-'
                   }
                   status={
@@ -1131,18 +1131,18 @@ function App() {
                   status={getSigmaLimitStatus(moistureLimit)}
                 />
                 <Metric
-                  label="Kritische sigma_c"
+                  label="Critical sigma_c"
                   value={
                     moistureLimit ? `${formatNumber(moistureLimit.critical_sigma_c_kpa, 2)} kPa` : '-'
                   }
                 />
                 <Metric
-                  label="Iterationen"
+                  label="Iterations"
                   value={moistureLimit ? String(moistureLimit.iterations) : '-'}
                 />
                 <Metric
-                  label="Suchbereich"
-                  value={`${formatBoundsLabel(moistureLimitBounds.minInitialMoisture)} bis ${formatBoundsLabel(
+                  label="Search range"
+                  value={`${formatBoundsLabel(moistureLimitBounds.minInitialMoisture)} to ${formatBoundsLabel(
                     moistureLimitBounds.maxInitialMoisture,
                   )} % db`}
                 />
@@ -1151,17 +1151,17 @@ function App() {
 
             <div className="panel">
               <div className="panel-header">
-                <h2 className="panel-title">Profilvorschau</h2>
+                <h2 className="panel-title">Profile preview</h2>
                 <p className="panel-meta">{previewSourceLabel}</p>
               </div>
               <div className="preview-grid">
-                <Metric label="Dauer" value={preview ? `${formatNumber(preview.preview.duration_d, 2)} d` : '-'} />
-                <Metric label="Punkte" value={preview ? String(preview.preview.n_points) : '-'} />
+                <Metric label="Duration" value={preview ? `${formatNumber(preview.preview.duration_d, 2)} d` : '-'} />
+                <Metric label="Points" value={preview ? String(preview.preview.n_points) : '-'} />
                 <Metric
-                  label="Temperatur"
+                  label="Temperature"
                   value={
                     preview
-                      ? `${formatNumber(preview.preview.temperature_min_c, 1)} bis ${formatNumber(
+                      ? `${formatNumber(preview.preview.temperature_min_c, 1)} to ${formatNumber(
                           preview.preview.temperature_max_c,
                           1,
                         )} C`
@@ -1169,10 +1169,10 @@ function App() {
                   }
                 />
                 <Metric
-                  label="Relative Feuchte"
+                  label="Relative humidity"
                   value={
                     preview
-                      ? `${formatNumber(preview.preview.relative_humidity_min_pct, 1)} bis ${formatNumber(
+                      ? `${formatNumber(preview.preview.relative_humidity_min_pct, 1)} to ${formatNumber(
                           preview.preview.relative_humidity_max_pct,
                           1,
                         )} %`
@@ -1199,9 +1199,9 @@ function App() {
           <div className="panel-header chart-panel-header">
             <div>
               <h2 id="chart-tabs-title" className="panel-title">
-                Ergebnisdiagramme
+                Result charts
               </h2>
-              <p className="panel-meta">Klima, Feuchte, Glasübergang und Caking-Kinetik</p>
+              <p className="panel-meta">Climate, moisture, glass transition, and caking kinetics</p>
             </div>
             <button
               className="button-secondary"
@@ -1209,10 +1209,10 @@ function App() {
               onClick={handleDownloadTimeSeries}
               disabled={!result}
             >
-              Zeitreihe exportieren
+              Export time series
             </button>
           </div>
-          <div className="chart-tabs" role="tablist" aria-label="Diagrammgruppe">
+          <div className="chart-tabs" role="tablist" aria-label="Chart group">
             {chartTabs.map((tab) => (
               <button
                 key={tab.id}
@@ -1229,35 +1229,35 @@ function App() {
 
           {activeChartTab === 'climate' && (
             <ChartBlock
-              description="Temperatur und relative Feuchte über Transportzeit"
-              emptyText="Simulation starten, um das Klimaprofil zu laden."
+              description="Temperature and relative humidity over transport time"
+              emptyText="Run the simulation to load the climate profile."
               option={climateChartOption}
             />
           )}
           {activeChartTab === 'moisture' && (
             <ChartBlock
-              description="Pulverfeuchte und Wasseraktivität aus der Wasserbilanz"
-              emptyText="Simulation starten, um Feuchte und aw zu berechnen."
+              description="Powder moisture and water activity from the moisture balance"
+              emptyText="Run the simulation to calculate moisture and aw."
               option={moistureChartOption}
             />
           )}
           {activeChartTab === 'glass' && (
             <ChartBlock
-              description="Temperatur, Tg nach Vuataz und rot markierte Temperatursegmente für T > Tg"
-              emptyText="Simulation starten, um Tg und die Überschreitungssegmente zu berechnen."
+              description="Temperature, Tg by Vuataz, and red-highlighted segments where T > Tg"
+              emptyText="Run the simulation to calculate Tg and the exceedance segments."
               option={glassChartOption}
             />
           )}
           {activeChartTab === 'caking' && (
             <div className="chart-stack">
               <ChartBlock
-                description="Cake-Festigkeit sigma_c mit roter 20-kPa-Referenzlinie"
-                emptyText="Simulation starten, um die Festigkeit zu berechnen."
+                description="Cake strength sigma_c with a red 20 kPa reference line"
+                emptyText="Run the simulation to calculate strength."
                 option={strengthChartOption}
               />
               <ChartBlock
-                description="Caking-Rate dfc/dt in Pa/h"
-                emptyText="Simulation starten, um die Caking-Rate zu berechnen."
+                description="Caking rate dfc/dt in Pa/h"
+                emptyText="Run the simulation to calculate the caking rate."
                 option={cakingRateChartOption}
               />
             </div>
@@ -1281,18 +1281,18 @@ function StartView({ onNavigate }: { onNavigate: (view: AppView) => void }) {
         <img
           className="start-hero-image"
           src={heroPowderSacks}
-          alt="Palettierte Pulversäcke im Lager"
+          alt="Palletized powder bags in storage"
         />
         <div className="start-hero-copy">
-          <p className="eyebrow">Transport- und Lagerbewertung</p>
-          <h1 id="start-title">Caking-Risiko von Magermilchpulver bewerten</h1>
-          <p>Feuchteaufnahme, Glasübergang und Festigkeitsaufbau aus Klimaprofilen berechnen.</p>
+          <p className="eyebrow">Transport and storage assessment</p>
+          <h1 id="start-title">Assess the caking risk of skim milk powder</h1>
+          <p>Calculate moisture uptake, glass transition, and strength build-up from climate profiles.</p>
           <div className="start-hero-actions">
             <button type="button" className="button-primary start-cta" onClick={() => onNavigate('simulator')}>
-              Zum Simulator
+              Open simulator
             </button>
             <button type="button" className="button-secondary start-cta" onClick={() => onNavigate('model')}>
-              Zur Modellgrundlage
+              View model basis
             </button>
           </div>
         </div>
@@ -1302,9 +1302,9 @@ function StartView({ onNavigate }: { onNavigate: (view: AppView) => void }) {
         <div className="panel start-orientation-panel">
           <div className="panel-header">
             <h2 id="orientation-title" className="panel-title">
-              Einstieg
+              Getting started
             </h2>
-            <p className="panel-meta">Vom Profil zur sicheren Startfeuchte</p>
+            <p className="panel-meta">From profile to safe initial moisture</p>
           </div>
           <div className="start-points">
             {startOrientationPoints.map((point) => (
@@ -1316,7 +1316,7 @@ function StartView({ onNavigate }: { onNavigate: (view: AppView) => void }) {
           </div>
         </div>
         <figure className="start-secondary-image">
-          <img src={labMoistureAnalysis} alt="Laboranalyse einer Pulverprobe" />
+          <img src={labMoistureAnalysis} alt="Labor analysis of a powder sample" />
         </figure>
       </section>
     </main>
@@ -1402,7 +1402,7 @@ function ExpertNumberField({
         value={value}
         onChange={(event) => onChange(event.target.value)}
       />
-      <span className={unit ? 'helper' : 'helper helper-placeholder'}>{unit ?? 'Einheit'}</span>
+      <span className={unit ? 'helper' : 'helper helper-placeholder'}>{unit ?? 'Unit'}</span>
     </div>
   )
 }
@@ -1412,21 +1412,21 @@ function ModelFoundationView() {
     <main className="page model-page">
       <section className="model-intro" aria-labelledby="model-title">
         <div>
-          <p className="eyebrow">Modellgrundlage</p>
-          <h1 id="model-title">Berechnung Caking</h1>
+          <p className="eyebrow">Model basis</p>
+          <h1 id="model-title">Caking calculation</h1>
         </div>
       </section>
 
       <section className="panel model-section" aria-labelledby="process-title">
         <div className="panel-header">
           <h2 id="process-title" className="panel-title">
-            Prozesskette
+            Process chain
           </h2>
-          <p className="panel-meta">Vom Pulverzustand zur Caking-Entscheidung</p>
+          <p className="panel-meta">From powder state to caking decision</p>
         </div>
         <p className="process-summary">
-          Startfeuchte, Transportklima, Wasserdampftransport, Wasseraktivität, Glasübergang und
-          Caking-Kinetik werden zu einer Festigkeitszeitreihe gekoppelt. Die Entscheidung erfolgt bei{' '}
+          Initial moisture, transport climate, water vapor transport, water activity, glass transition, and
+          caking kinetics are coupled into a strength time series. The decision threshold is{' '}
           <span className="inline-equation">
             &sigma;<sub>c</sub> &gt;= 20 kPa
           </span>
@@ -1448,9 +1448,9 @@ function ModelFoundationView() {
       <section className="panel model-section" aria-labelledby="formula-title">
         <div className="panel-header">
           <h2 id="formula-title" className="panel-title">
-            Formeln und Einheiten
+            Equations and units
           </h2>
-          <p className="panel-meta">Kernbeziehungen des Simulationskerns</p>
+          <p className="panel-meta">Core relationships of the simulation engine</p>
         </div>
         <div className="formula-grid">
           {formulaBlocks.map((block) => (
@@ -1466,9 +1466,9 @@ function ModelFoundationView() {
       <section className="panel model-section" aria-labelledby="assumptions-title">
         <div className="panel-header">
           <h2 id="assumptions-title" className="panel-title">
-            Modellannahmen und Grenzen
+            Model assumptions and limits
           </h2>
-          <p className="panel-meta">Vereinfachungen und fachlicher Gültigkeitsbereich</p>
+          <p className="panel-meta">Simplifications and technical scope of validity</p>
         </div>
         <div className="model-assumptions">
           {modelAssumptions.map((item) => (
@@ -1485,25 +1485,25 @@ function ModelFoundationView() {
 
 const startOrientationPoints = [
   {
-    title: 'Klimaprofil wählen',
-    description: 'Preset, CSV oder reales Loggerprofil.',
+    title: 'Choose climate profile',
+    description: 'Preset, CSV, or measured logger profile.',
   },
   {
-    title: 'Caking-Risiko berechnen',
+    title: 'Calculate caking risk',
     description: (
       <>
-        Verlauf von Pulverfestigkeit (
+        Determine the evolution of powder strength (
         <span className="inline-equation">
           σ<sub>c</sub>
         </span>
-        ), Feuchte, Wasseraktivität, Glasübergang und Caking-Risiko für Klimaprofile bestimmen.
+        ), moisture, water activity, glass transition, and caking risk for climate profiles.
       </>
     ),
   },
   {
-    title: 'Sichere Startfeuchte bestimmen',
+    title: 'Determine safe initial moisture',
     description:
-      'Sichere Startfeuchte für gegebene Klimaprofile bestimmen um Caking während des Transports zu vermeiden.',
+      'Determine the safe initial moisture for a given climate profile to avoid caking during transport.',
   },
 ]
 
@@ -1532,7 +1532,7 @@ function ParameterTraceability({
   if (!hasResult) {
     return (
       <div className="parameter-empty" role="tabpanel">
-        Simulation starten, um die verwendeten Parameter zu laden.
+        Run the simulation to load the parameters used.
       </div>
     )
   }
@@ -1540,7 +1540,7 @@ function ParameterTraceability({
   return (
     <div className="parameter-view" role="tabpanel">
       <p className="chart-description">
-        Verwendete Lauf-, Modell- und Entscheidungsparameter aus der SimulationResponse
+        Run, model, and decision parameters returned in the SimulationResponse
       </p>
       <div className="parameter-section-grid">
         {sections.map((section) => (
@@ -1567,7 +1567,7 @@ function ParameterTraceability({
 function parseRequiredNumber(value: string): number {
   const parsed = Number(value.replace(',', '.'))
   if (!Number.isFinite(parsed)) {
-    throw new Error('Bitte numerische Eingaben prüfen')
+    throw new Error('Please check numeric inputs')
   }
   return parsed
 }
@@ -1578,7 +1578,7 @@ function parseOptionalPositiveNumber(value: string): number | undefined {
   }
   const parsed = parseRequiredNumber(value)
   if (parsed <= 0) {
-    throw new Error('dt_d muss größer als 0 sein')
+    throw new Error('dt_d must be greater than 0')
   }
   return parsed
 }
@@ -1589,7 +1589,7 @@ function parseOptionalExpertNumber(value: string, label: string): number | undef
   }
   const parsed = Number(value.replace(',', '.'))
   if (!Number.isFinite(parsed)) {
-    throw new Error(`${label}: numerischen Wert prüfen`)
+    throw new Error(`${label}: check numeric value`)
   }
   return parsed
 }
@@ -1639,8 +1639,8 @@ function buildParameterOverrides(
     overrides.gab = { ...overrides.gab, f: gabF }
   }
 
-  const sackMassKg = parseOptionalExpertNumber(expertParameters.sackMassKg, 'Sackmasse')
-  const sackAreaM2 = parseOptionalExpertNumber(expertParameters.sackAreaM2, 'Sackfläche')
+  const sackMassKg = parseOptionalExpertNumber(expertParameters.sackMassKg, 'Bag mass')
+  const sackAreaM2 = parseOptionalExpertNumber(expertParameters.sackAreaM2, 'Bag area')
   if (sackMassKg !== undefined && valueDiffers(sackMassKg, defaultParameters.sack_mass_kg)) {
     overrides.sack = { ...overrides.sack, sack_mass_kg: sackMassKg }
   }
@@ -1648,8 +1648,8 @@ function buildParameterOverrides(
     overrides.sack = { ...overrides.sack, sack_area_m2: sackAreaM2 }
   }
 
-  const initialSigmaCKpa = parseOptionalExpertNumber(expertParameters.initialSigmaCKpa, 'Initiale sigma_c')
-  const criticalSigmaCKpa = parseOptionalExpertNumber(expertParameters.criticalSigmaCKpa, 'Kritische sigma_c')
+  const initialSigmaCKpa = parseOptionalExpertNumber(expertParameters.initialSigmaCKpa, 'Initial sigma_c')
+  const criticalSigmaCKpa = parseOptionalExpertNumber(expertParameters.criticalSigmaCKpa, 'Critical sigma_c')
   if (initialSigmaCKpa !== undefined && valueDiffers(initialSigmaCKpa, defaultParameters.initial_sigma_c_kpa)) {
     overrides.caking_threshold = { ...overrides.caking_threshold, initial_sigma_c_kpa: initialSigmaCKpa }
   }
@@ -1666,9 +1666,9 @@ function buildParameterOverrides(
     const k0 = parseOptionalExpertNumber(expertParameters.permeabilityK0, 'k0')
     const activationEnergy = parseOptionalExpertNumber(
       expertParameters.permeabilityActivationEnergy,
-      'Aktivierungsenergie',
+      'Activation energy',
     )
-    const gasConstant = parseOptionalExpertNumber(expertParameters.permeabilityGasConstant, 'Gaskonstante')
+    const gasConstant = parseOptionalExpertNumber(expertParameters.permeabilityGasConstant, 'Gas constant')
     if (k0 !== undefined && valueDiffers(k0, defaultParameters.permeability.k0)) {
       overrides.permeability = { ...overrides.permeability, k0 }
     }
@@ -1688,9 +1688,9 @@ function buildParameterOverrides(
       overrides.permeability = { ...overrides.permeability, gas_constant_j_per_kmol_k: gasConstant }
     }
   } else {
-    const constantK = parseOptionalExpertNumber(expertParameters.permeabilityConstantK, 'k/delta konstant')
+    const constantK = parseOptionalExpertNumber(expertParameters.permeabilityConstantK, 'Constant k/delta')
     if (constantK === undefined) {
-      throw new Error('Konstante Permeabilität braucht k/delta')
+      throw new Error('Constant permeability requires k/delta')
     }
     if (valueDiffers(constantK, defaultParameters.permeability.k_over_delta_kg_per_m2_d_pa ?? undefined)) {
       overrides.permeability = { ...overrides.permeability, k_over_delta_kg_per_m2_d_pa: constantK }
@@ -1746,7 +1746,7 @@ function buildPreviewSourceLabel(
     return apiSource
   }
 
-  return 'CSV-Eingabe'
+  return 'CSV input'
 }
 
 function looksLikePath(value: string): boolean {
@@ -1758,7 +1758,7 @@ function mean(values: number[]): number {
 }
 
 function formatNumber(value: number, fractionDigits: number): string {
-  return new Intl.NumberFormat('de-DE', {
+  return new Intl.NumberFormat('en-US', {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
   }).format(value)
@@ -1786,7 +1786,7 @@ function formatMoistureLimitValue(moistureLimit: MoistureLimitResponse | null): 
     return '-'
   }
   if (moistureLimit.safe_initial_moisture_db_pct == null) {
-    return 'kein sicherer Wert'
+    return 'no safe value'
   }
   const prefix = moistureLimit.warnings.some((warning) => warning.includes('upper search bound remains safe'))
     ? '>= '
@@ -1963,13 +1963,13 @@ function buildParameterSections(simulationResult: SimulationResponse | null): Pa
 
   return [
     {
-      title: 'Eingabe-/Laufparameter',
+      title: 'Input and run parameters',
       rows: [
-        { label: 'Konsolidierungsspannung', value: formatParameterNumber(summary.consolidation_stress_kpa, 2), unit: 'kPa' },
-        { label: 'Sackmasse', value: formatParameterNumber(parameters.sack_mass_kg, 2), unit: 'kg' },
-        { label: 'Sackfläche', value: formatParameterNumber(parameters.sack_area_m2, 3), unit: 'm2' },
-        { label: 'Initiale sigma_c', value: formatParameterNumber(parameters.initial_sigma_c_kpa, 3), unit: 'kPa' },
-        { label: 'Simulationsdauer', value: formatParameterNumber(summary.final_time_d, 3), unit: 'd' },
+        { label: 'Consolidation stress', value: formatParameterNumber(summary.consolidation_stress_kpa, 2), unit: 'kPa' },
+        { label: 'Bag mass', value: formatParameterNumber(parameters.sack_mass_kg, 2), unit: 'kg' },
+        { label: 'Bag area', value: formatParameterNumber(parameters.sack_area_m2, 3), unit: 'm2' },
+        { label: 'Initial sigma_c', value: formatParameterNumber(parameters.initial_sigma_c_kpa, 3), unit: 'kPa' },
+        { label: 'Simulation duration', value: formatParameterNumber(summary.final_time_d, 3), unit: 'd' },
       ],
     },
     {
@@ -1986,7 +1986,7 @@ function buildParameterSections(simulationResult: SimulationResponse | null): Pa
       ],
     },
     {
-      title: 'GAB-Parameter',
+      title: 'GAB parameters',
       rows: [
         { label: 'Mo', value: formatParameterNumber(parameters.gab.mo, 4), unit: '% db' },
         { label: 'C', value: formatParameterNumber(parameters.gab.c, 4) },
@@ -1994,22 +1994,22 @@ function buildParameterSections(simulationResult: SimulationResponse | null): Pa
       ],
     },
     {
-      title: 'Permeations-/Arrheniusparameter',
+      title: 'Permeation and Arrhenius parameters',
       rows: [
-        { label: 'Modus', value: parameters.permeability.mode },
+        { label: 'Mode', value: parameters.permeability.mode },
         { label: 'k0', value: formatParameterNumber(parameters.permeability.k0, 8), unit: 'kg/(m2*d*Pa)' },
         {
-          label: 'Aktivierungsenergie',
+          label: 'Activation energy',
           value: formatParameterNumber(parameters.permeability.activation_energy_j_per_kmol, 4),
           unit: 'J/kmol',
         },
         {
-          label: 'Gaskonstante',
+          label: 'Gas constant',
           value: formatParameterNumber(parameters.permeability.gas_constant_j_per_kmol_k, 4),
           unit: 'J/(kmol*K)',
         },
         {
-          label: 'k/delta konstant',
+          label: 'Constant k/delta',
           value:
             parameters.permeability.k_over_delta_kg_per_m2_d_pa == null
               ? '-'
@@ -2019,17 +2019,17 @@ function buildParameterSections(simulationResult: SimulationResponse | null): Pa
       ],
     },
     {
-      title: 'Schwelle / Integration',
+      title: 'Threshold and integration',
       rows: [
-        { label: 'Kritische sigma_c', value: formatParameterNumber(parameters.critical_sigma_c_kpa, 2), unit: 'kPa' },
-        { label: 'Summary-Schwelle', value: formatParameterNumber(summary.critical_sigma_c_kpa, 2), unit: 'kPa' },
-        { label: 'Integrationsmethode', value: summary.integration_method },
-        { label: 'Caking-Status', value: summary.is_caked ? 'Verklumpt' : 'Nicht verklumpt' },
+        { label: 'Critical sigma_c', value: formatParameterNumber(parameters.critical_sigma_c_kpa, 2), unit: 'kPa' },
+        { label: 'Summary threshold', value: formatParameterNumber(summary.critical_sigma_c_kpa, 2), unit: 'kPa' },
+        { label: 'Integration method', value: summary.integration_method },
+        { label: 'Caking status', value: summary.is_caked ? 'Caked' : 'Not caked' },
         {
-          label: 'Zeit bis kritisch',
+          label: 'Time to critical',
           value:
             summary.time_to_critical_d == null
-              ? 'nicht erreicht'
+              ? 'not reached'
               : formatParameterNumber(summary.time_to_critical_d, 3),
           unit: summary.time_to_critical_d == null ? undefined : 'd',
         },
@@ -2041,41 +2041,41 @@ function buildParameterSections(simulationResult: SimulationResponse | null): Pa
 const processSteps: ProcessStep[] = [
   {
     index: '1',
-    title: 'Pulverherstellung und Startzustand',
-    description: 'Sprühgetrocknetes Magermilchpulver startet mit definierter Pulverfeuchte in % db.',
+    title: 'Powder production and initial state',
+    description: 'Spray-dried skim milk powder starts with a defined powder moisture in % db.',
   },
   {
     index: '2',
-    title: 'Lagerung und Transport',
-    description: 'Temperatur und relative Feuchte werden als Klimaprofil über die Transportzeit verarbeitet.',
+    title: 'Storage and transport',
+    description: 'Temperature and relative humidity are processed as a climate profile over transport time.',
   },
   {
     index: '3',
-    title: 'Feuchtetransport durch den Sack',
-    description: 'Wasserdampfstrom folgt aus Permeabilität, Sackfläche, Sättigungsdruck, rF und aw.',
+    title: 'Moisture transport through the bag',
+    description: 'Water vapor flux follows from permeability, bag area, saturation pressure, RH, and aw.',
   },
   {
     index: '4',
-    title: 'Wasseraufnahme und Wasseraktivität',
-    description: 'Die Wasserbilanz aktualisiert die Pulverfeuchte; die GAB-Isotherme liefert aw.',
+    title: 'Water uptake and water activity',
+    description: 'The moisture balance updates powder moisture; the GAB isotherm provides aw.',
   },
   {
     index: '5',
-    title: 'Glasübergang',
-    description: 'Aus aw wird Tg nach Vuataz berechnet; T - Tg treibt die Caking-Kinetik.',
+    title: 'Glass transition',
+    description: 'Tg is calculated from aw using Vuataz; T - Tg drives the caking kinetics.',
   },
   {
     index: '6',
-    title: 'Caking-Kinetik',
-    description: 'T - Tg treibt dfc/dt; die Fitparameter hängen von der Konsolidierungsspannung ab.',
+    title: 'Caking kinetics',
+    description: 'T - Tg drives dfc/dt; the fit parameters depend on consolidation stress.',
   },
   {
     index: '7',
-    title: 'Festigkeitsintegration und Entscheidung',
+    title: 'Strength integration and decision',
     description: (
       <>
-        df<sub>c</sub>/dt in Pa/h wird über &Delta;t<sub>h</sub> integriert; &sigma;<sub>c</sub> &gt;= 20 kPa ist
-        verklumpt.
+        df<sub>c</sub>/dt in Pa/h is integrated over &Delta;t<sub>h</sub>; &sigma;<sub>c</sub> &gt;= 20 kPa means
+        caked.
       </>
     ),
   },
@@ -2083,17 +2083,17 @@ const processSteps: ProcessStep[] = [
 
 const formulaBlocks: FormulaBlock[] = [
   {
-    title: 'Permeationsmodell',
+    title: 'Permeation model',
     formula: (
       <span>
         m&#775;<sub>w</sub> = k/&delta; &middot; A<sub>sack</sub> &middot; p<sub>sv</sub>(T) &middot; (
         <Fraction numerator="RH" denominator="100" /> - a<sub>w</sub>)
       </span>
     ),
-    description: 'Der Wasserdampfstrom nutzt kg/(m2*d*Pa), Sackfläche in m2 und Druck in Pa.',
+    description: 'The water vapor flux uses kg/(m2*d*Pa), bag area in m2, and pressure in Pa.',
   },
   {
-    title: 'Sättigungsdampfdruck',
+    title: 'Saturation vapor pressure',
     formula: (
       <span>
         p<sub>sv</sub>(T) = exp(23.4795 -{' '}
@@ -2108,10 +2108,10 @@ const formulaBlocks: FormulaBlock[] = [
         )
       </span>
     ),
-    description: 'Temperatur wird in degC eingesetzt; p_sv wird in Pa verwendet.',
+    description: 'Temperature is entered in degC; p_sv is used in Pa.',
   },
   {
-    title: 'Arrhenius für k/δ',
+    title: 'Arrhenius for k/δ',
     formula: (
       <span>
         k/&delta;(T) = k<sub>0</sub> &middot; exp(-
@@ -2130,19 +2130,19 @@ const formulaBlocks: FormulaBlock[] = [
         )
       </span>
     ),
-    description: 'Temperatur wird in K eingesetzt; Ea und R werden in J/kmol bzw. J/(kmol*K) geführt.',
+    description: 'Temperature is entered in K; Ea and R are expressed in J/kmol and J/(kmol*K).',
   },
   {
-    title: 'Wasserbilanz',
+    title: 'Moisture balance',
     formula: (
       <span>
         m<sub>w,i+1</sub> = m<sub>w,i</sub> + m&#775;<sub>w,i</sub> &middot; &Delta;t<sub>d</sub>
       </span>
     ),
-    description: 'Der Zeitschritt dt_d liegt in Tagen; daraus folgt die aktualisierte Pulverfeuchte.',
+    description: 'The time step dt_d is given in days; this yields the updated powder moisture.',
   },
   {
-    title: 'GAB und aw',
+    title: 'GAB and aw',
     formula: (
       <>
         <span>
@@ -2197,10 +2197,10 @@ const formulaBlocks: FormulaBlock[] = [
       </>
     ),
     description:
-      'X ist Pulverfeuchte in % db; die dargestellte kompakte Lösungsform entspricht der im Simulationskern verwendeten expliziten Umstellung der GAB-Isotherme nach aw.',
+      'X is powder moisture in % db; the compact solution shown matches the explicit rearrangement of the GAB isotherm for aw used in the simulation core.',
   },
   {
-    title: 'Glasübergang',
+    title: 'Glass transition',
     formula: (
       <>
         <span>
@@ -2214,7 +2214,7 @@ const formulaBlocks: FormulaBlock[] = [
       </>
     ),
     description:
-      'Der Simulationskern verwendet Tg nach Vuataz für T - Tg und damit für die Caking-Rate. Quelle: Vuataz, G. (2002). The phase diagram of milk: a new tool for optimising the drying process. Lait 82 (2002) 485-500. DOI: 10.1051/lait:2002026.',
+      'The simulation core uses Tg by Vuataz for T - Tg and therefore for the caking rate. Source: Vuataz, G. (2002). The phase diagram of milk: a new tool for optimising the drying process. Lait 82 (2002) 485-500. DOI: 10.1051/lait:2002026.',
   },
   {
     title: 'Caking-Rate',
@@ -2223,10 +2223,10 @@ const formulaBlocks: FormulaBlock[] = [
         df<sub>c</sub>/dt = a &middot; exp(k &middot; (T - T<sub>g</sub>))
       </span>
     ),
-    description: 'dfc/dt liegt in Pa/h und wird aus dem ausgewählten Konsolidierungsfit berechnet.',
+    description: 'dfc/dt is expressed in Pa/h and is calculated from the selected consolidation fit.',
   },
   {
-    title: 'Integration und Entscheidung',
+    title: 'Integration and decision',
     formula: (
       <>
         <span>
@@ -2248,35 +2248,35 @@ const formulaBlocks: FormulaBlock[] = [
         </span>
       </>
     ),
-    description: 'Die Einheitenumrechnung von Pa nach kPa und Tagen nach Stunden ist explizit.',
+    description: 'The unit conversion from Pa to kPa and from days to hours is explicit.',
   },
 ]
 
 const modelAssumptions = [
   {
-    title: 'Kumulative Verfestigung',
+    title: 'Cumulative strength build-up',
     description:
-      'Bereits aufgebaute Festigkeit bleibt erhalten. Bei T - Tg <= 0 wird keine zusätzliche Caking-Rate angesetzt; steigt T - Tg später wieder über 0, wird die Verfestigung vom erreichten Niveau aus fortgesetzt.',
+      'Strength that has already built up is retained. When T - Tg <= 0, no additional caking rate is applied; if T - Tg rises above 0 again later, consolidation continues from the level already reached.',
   },
   {
-    title: 'Permeation an der Sackgrenze',
+    title: 'Permeation at the bag boundary',
     description:
-      'Das Modell setzt an der Innenseite des Sackes ein Gleichgewicht zwischen Wasserdampf und der aus der Pulverfeuchte berechneten Wasseraktivität an. Räumliche Feuchtegradienten innerhalb des Pulvers werden nicht separat aufgelöst.',
+      'The model assumes equilibrium at the inner bag surface between water vapor and the water activity calculated from powder moisture. Spatial moisture gradients inside the powder are not resolved separately.',
   },
   {
-    title: 'Gesamte Sackoberfläche als Transferfläche',
+    title: 'Entire bag surface as transfer area',
     description:
-      'Der Wasserdampftransport wird über die angesetzte gesamte Sackoberfläche berechnet. Lokale Unterschiede durch Nähte, Falten, Beschädigungen oder partielle Benetzung werden nicht separat modelliert.',
+      'Water vapor transport is calculated over the assumed total bag surface area. Local differences caused by seams, folds, damage, or partial wetting are not modeled separately.',
   },
   {
-    title: 'Homogene Materialparameter',
+    title: 'Homogeneous material parameters',
     description:
-      'GAB-Parameter, Sackpermeabilität und Caking-Fit werden innerhalb eines Laufs als homogen angenommen. Änderungen durch Materialalterung, inhomogene Produktverteilung oder wechselnde Sackeigenschaften sind nicht enthalten.',
+      'GAB parameters, bag permeability, and caking fit are assumed homogeneous within a run. Changes due to material aging, non-uniform product distribution, or varying bag properties are not included.',
   },
   {
-    title: 'Gültigkeitsbereich der Datenbasis',
+    title: 'Validity range of the data basis',
     description:
-      'Die Vorhersage stützt sich auf die hinterlegten Messdaten und daraus abgeleiteten Fits. Aussagen außerhalb des abgedeckten Material-, Temperatur- und Klimabereichs sind als Extrapolation mit erhöhter Unsicherheit zu verstehen.',
+      'The prediction is based on the stored measurement data and the fits derived from them. Results outside the covered material, temperature, and climate range should be treated as extrapolation with increased uncertainty.',
   },
 ] as const
 
@@ -2288,11 +2288,11 @@ const sampleCsvText = [
 ].join('\n')
 
 const chartTabs: { id: ChartTab; label: string }[] = [
-  { id: 'climate', label: 'Klima' },
-  { id: 'moisture', label: 'Feuchte' },
-  { id: 'glass', label: 'Glasübergang' },
+  { id: 'climate', label: 'Climate' },
+  { id: 'moisture', label: 'Moisture' },
+  { id: 'glass', label: 'Glass transition' },
   { id: 'caking', label: 'Caking' },
-  { id: 'parameters', label: 'Parameter' },
+  { id: 'parameters', label: 'Parameters' },
 ]
 
 const timeSeriesExportColumns = [
